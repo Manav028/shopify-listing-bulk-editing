@@ -1,0 +1,10 @@
+require("dotenv").config();
+
+module.exports = {
+  SHOPIFY_STORE: "",
+  ACCESS_TOKEN: "",
+  CSV_FILE_PATH: "", 
+  OUTPUT_CSV_PATH: ""
+};
+
+create config.js and fill following cariable to start the program 
