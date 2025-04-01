@@ -319,7 +319,8 @@ const fetchCategoryProducts = async (collectionid) => {
 
 // Update product price
 const updateVariantPrice = async (variantId, newPrice) => {
-  const url = `https://${SHOPIFY_STORE}/admin/api/2024-01/variants/${variantId}.json`;
+
+  const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE}/admin/api/2024-01/graphql.json`;
 
   try {
     console.log("Sending data to update price:", { variant: { id: variantId, price: newPrice } });
