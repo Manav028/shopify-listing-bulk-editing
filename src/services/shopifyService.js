@@ -319,12 +319,17 @@ const fetchCategoryProducts = async (collectionid) => {
 
 // Update product price
 const updateVariantPrice = async (variantId, newPrice) => {
-
-  const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE}/admin/api/2024-01/graphql.json`;
+  const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE}/admin/api/2024-01/variants/${variantId}.json`;
 
   try {
     console.log("Sending data to update price:", { variant: { id: variantId, price: newPrice } });
-    await axios.put(url, { variant: { id: variantId, price: newPrice, inventory_policy: "deny" } }, { headers });
+    await axios.put(SHOPIFY_GRAPHQL_URL, { 
+      variant: { 
+        id: variantId, 
+        price: newPrice, 
+        inventory_policy: "deny" 
+      } 
+    }, { headers });
     console.log(`Price updated for Variant ID: ${variantId}`);
   } catch (error) {
     console.error(`Error updating variant ID ${variantId}:`, error.response ? error.response.data : error.message);

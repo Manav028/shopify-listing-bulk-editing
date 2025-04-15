@@ -27,10 +27,10 @@ exports.uploadFile = async (req, res) => {
 
     try {
       const fields = line.split("\t");
-
+      console.log("In")
       if (fields.length === 5) {
         const [product_id, variant_id, sku, price, collectionId] = fields;
-        uploadedData.push({ type: "price_update", product_id, variant_id, sku, price, collectionId });
+        uploadedData.push({ type: "price_update_collection", product_id, variant_id, sku, price, collectionId });
       } else if (fields.length === 2) {
         const [product_id, product_title] = fields;
         uploadedData.push({ type: "metafield_update", product_id, product_title });
@@ -45,7 +45,7 @@ exports.uploadFile = async (req, res) => {
   rl.on("close", async () => {
     try {
       for (const data of uploadedData) {
-        if (data.type === "price_update") {
+        if (data.type === "price_update_collection") {
           console.log(`Updating SKU: ${data.sku}, Variant ID: ${data.variant_id}, Price: ${data.price}`);
           await updateVariantPrice(data.variant_id, data.price);
           if (data.collectionId) {
