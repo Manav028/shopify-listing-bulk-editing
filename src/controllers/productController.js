@@ -25,7 +25,8 @@ const downloadCategoryProducts = async (req, res) => {
 const downloadMetafieldproduct = async(req,res) =>{
   try{
     const productData = await fetchMetafields();
-    console.log(productData)
+    await saveToCsv(productData,"metafield.csv");
+    res.download(`${OUTPUT_CSV_PATH}metafield.csv`);
   }catch(error){
     res.status(500).send("Error downloading Metafield product");
   }

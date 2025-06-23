@@ -72,8 +72,6 @@ const updateSEOmetafield = async (productId, productname) => {
 
     const { meta_title, meta_description, product_description } = openaiResponse.data;
 
-    console.log()
-
     console.log(`🔹 Checking existing metafields for product ${productId}...`);
 
     const metafieldsResponse = await axios.get(
@@ -169,10 +167,17 @@ const updateProductDetails = async (productId, newDescription, metaTitle) => {
     const existingProduct = productResponse.data.product;
     const existingImages = existingProduct.images || [];
 
+    const seoHandle = metaTitle
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")     
+      .replace(/^-+|-+$/g, "")         
+      .substring(0, 255);         
+
     const updatedProductData = {
       product: {
         id: productId,
-        body_html: newDescription || existingProduct.body_html
+        body_html: newDescription || existingProduct.body_html,
+        handle: seoHandle
       }
     };
 
@@ -356,6 +361,21 @@ const addProductToCollection = async (productId, collectionId) => {
   }
 };
 
+const bulknewsmartcollection = async () => {
+  const url = `https://{store}.myshopify.com/admin/api/{version}/smart_collections.json`;
+  for (const collection of collections) {
+    try {
+      const response = await axios.post(
+        url,
+        { smart_collection: { ...collection, published: true } },
+        { headers }
+      );
+      console.log(`Created: ${response.data.smart_collection.title}`);
+    } catch (error) {
+      console.error('Error creating collection:', error.response?.data || error.message);
+    }
+  }
+}
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

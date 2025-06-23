@@ -27,7 +27,7 @@ exports.uploadFile = async (req, res) => {
 
     try {
       const fields = line.split("\t");
-      console.log("In")
+
       if (fields.length === 5) {
         const [product_id, variant_id, sku, price, collectionId] = fields;
         uploadedData.push({ type: "price_update_collection", product_id, variant_id, sku, price, collectionId });
