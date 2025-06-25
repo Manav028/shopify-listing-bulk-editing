@@ -1,4 +1,4 @@
-const { fetchAllProducts,fetchCategoryProducts,fetchMetafields } = require("../services/shopifyService");
+const { fetchAllProducts,fetchCategoryProducts,fetchMetafields} = require("../services/shopifyService");
 const { saveToCsv } = require("../services/csvService");
 const { OUTPUT_CSV_PATH } = require("../config/config");
 

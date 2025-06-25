@@ -21,7 +21,7 @@ const handleRateLimit = async (error) => {
 
 // Fetch all Shopify products
 const fetchAllProducts = async () => {
-  let url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json?fields=id,title,variants&limit=250`;
+  let url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json?fields=id,title,variants,body_html&limit=250`;
   const allProducts = [];
 
   try {
@@ -38,7 +38,8 @@ const fetchAllProducts = async () => {
             variant_id: variant.id,
             sku: variant.sku,
             product_title: product.title,
-            product_price: variant.price
+            product_price: variant.price,
+            product_description: product.body_html,
           });
         });
       }
@@ -377,8 +378,57 @@ const bulknewsmartcollection = async () => {
   }
 }
 
+const reorderSmartCollection = async (collectionId,productId,rank) => {
+   const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
+
+   const query = `
+    mutation collectionReorderProducts($id: ID!, $moves: [MoveInput!]!) {
+      collectionReorderProducts(id: $id, moves: $moves) {
+        job { id done }
+        userErrors { field message }
+      }
+    }`;
+
+    const variables = {
+    id: `gid://shopify/Collection/${collectionId}`,
+    moves: [
+      {
+        id: `gid://shopify/Product/${productId}`,
+        newPosition: rank,
+      },
+    ],
+  };
+    
+    try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': ACCESS_TOKEN,
+      },
+      body: JSON.stringify({ query, variables }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+
+    if (data.errors) {
+      console.error('GraphQL Errors:', data.errors);
+    } else if (data.data.collectionReorderProducts.userErrors.length > 0) {
+      console.error('User Errors:', data.data.collectionReorderProducts.userErrors);
+    } else {
+      console.log('Reorder job started:', data.data.collectionReorderProducts.job);
+    }
+  } catch (error) {
+    console.error('Request failed:', error.message);
+  }
+}
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 
-module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields ,updateSEOmetafield};
+module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields ,updateSEOmetafield, reorderSmartCollection};
 
