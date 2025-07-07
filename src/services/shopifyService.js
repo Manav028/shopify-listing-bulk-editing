@@ -362,22 +362,6 @@ const addProductToCollection = async (productId, collectionId) => {
   }
 };
 
-const bulknewsmartcollection = async () => {
-  const url = `https://{store}.myshopify.com/admin/api/{version}/smart_collections.json`;
-  for (const collection of collections) {
-    try {
-      const response = await axios.post(
-        url,
-        { smart_collection: { ...collection, published: true } },
-        { headers }
-      );
-      console.log(`Created: ${response.data.smart_collection.title}`);
-    } catch (error) {
-      console.error('Error creating collection:', error.response?.data || error.message);
-    }
-  }
-}
-
 const reorderSmartCollection = async (collectionId,productId,rank) => {
    const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
 
@@ -427,8 +411,47 @@ const reorderSmartCollection = async (collectionId,productId,rank) => {
   }
 }
 
+const fetchAllCollections  = async () => {
+  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title&limit=250`;
+  const allCollections = [];
+  let url = urlBase;
+
+  while (url) {
+    try {
+      const response = await axios.get(url, { headers });
+
+      const collections = response.data.smart_collections;
+
+      console.log(`Fetched ${collections.length} smart collections`);
+
+      collections.forEach((collection) => {
+        allCollections.push({
+          id: collection.id,
+          title: collection.title,
+          type: 'smart',
+        });
+      });
+
+      url =
+        response.headers.link && response.headers.link.includes('rel="next"')
+          ? response.headers.link
+              .split(',')
+              .find((link) => link.includes('rel="next"'))
+              .match(/<(.*?)>/)[1]
+          : null;
+
+    } catch (error) {
+      console.error(`Error fetching ${url}:`, error.response?.data || error.message);
+      throw new Error('Failed to fetch smart collections');
+    }
+  }
+
+  console.log(`Total smart collections fetched: ${allCollections.length}`);
+  return allCollections;
+};
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 
-module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields ,updateSEOmetafield, reorderSmartCollection};
+module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields ,updateSEOmetafield, reorderSmartCollection, fetchAllCollections};
 

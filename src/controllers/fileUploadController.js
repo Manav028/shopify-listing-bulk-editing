@@ -32,9 +32,11 @@ exports.uploadFile = async (req, res) => {
       const [product_id, variant_id, sku, price, collectionId] = fields;
       uploadedData.push({ type: "price_update_collection", product_id, variant_id, sku, price, collectionId });
     } else if (fields.length === 2) {
+      console.log("2")
       const [product_id, product_title] = fields;
       uploadedData.push({ type: "metafield_update", product_id, product_title });
     } else if (fields.length === 3) {
+      console.log("3")
       const [product_id, collectionId, rank] = fields;
       uploadedData.push({ type: "reorder_product", product_id, collectionId, rank });
     } else {

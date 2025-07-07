@@ -1,4 +1,4 @@
-const { fetchAllProducts,fetchCategoryProducts,fetchMetafields} = require("../services/shopifyService");
+const { fetchAllProducts,fetchCategoryProducts,fetchMetafields, fetchAllCollections} = require("../services/shopifyService");
 const { saveToCsv } = require("../services/csvService");
 const { OUTPUT_CSV_PATH } = require("../config/config");
 
@@ -32,4 +32,14 @@ const downloadMetafieldproduct = async(req,res) =>{
   }
 }
 
-module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct}
+const downloadSmartCollections = async (req, res) => {
+  try {
+    const productData = await fetchAllCollections();
+    await saveToCsv(productData,"SmartCollection.csv");
+    res.download(`${OUTPUT_CSV_PATH}SmartCollection.csv`);
+  } catch (error) {
+    res.status(500).send("Error downloading product data");
+  }
+};
+
+module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections}
