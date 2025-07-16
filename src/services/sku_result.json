@@ -1,0 +1,62 @@
+[
+  {
+    "sku": "KD29794",
+    "price": ".53",
+    "exists": false
+  },
+  {
+    "sku": "DD9690",
+    "price": "3.96",
+    "exists": true
+  },
+  {
+    "sku": "KD05094",
+    "price": ".76",
+    "exists": false
+  },
+  {
+    "sku": "KD34832",
+    "price": "4.26",
+    "exists": false
+  },
+  {
+    "sku": "KD16281",
+    "price": "1.23",
+    "exists": true
+  },
+  {
+    "sku": "KD29696",
+    "price": ".53",
+    "exists": true
+  },
+  {
+    "sku": "KD34830",
+    "price": "4.18",
+    "exists": false
+  },
+  {
+    "sku": "KD05060",
+    "price": "3.25",
+    "exists": false
+  },
+  {
+    "sku": "KD14734",
+    "price": "1.96",
+    "exists": false
+  },
+  {
+    "sku": "KD29687",
+    "price": "6.06",
+    "exists": false
+  },
+  {
+    "sku": "KD29796",
+    "price": ".53",
+    "exists": true
+  },
+  {
+    "sku": "KD34833",
+    "price": "3.29",
+    "exists": false
+  }
+]
