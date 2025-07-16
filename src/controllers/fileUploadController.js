@@ -36,7 +36,6 @@ exports.uploadFile = async (req, res) => {
       const [product_id, product_title] = fields;
       uploadedData.push({ type: "metafield_update", product_id, product_title });
     } else if (fields.length === 3) {
-      console.log("3")
       const [product_id, collectionId, rank] = fields;
       uploadedData.push({ type: "reorder_product", product_id, collectionId, rank });
     } else {

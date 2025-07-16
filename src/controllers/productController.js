@@ -42,4 +42,5 @@ const downloadSmartCollections = async (req, res) => {
   }
 };
 
+
 module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections}
