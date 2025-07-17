@@ -1,16 +1,29 @@
 const { fetchAllProducts,fetchCategoryProducts,fetchMetafields, fetchAllCollections} = require("../services/shopifyService");
 const { saveToCsv } = require("../services/csvService");
 const { OUTPUT_CSV_PATH } = require("../config/config");
+const uploadToDropbox = require('../utils/uploadToDropbox');
+const path = require('path');
 
 const downloadProducts = async (req, res) => {
   try {
+    const fileName = 'ToysGiftsproduct.csv';
+    const localDir = '/tmp'; 
+    const localFilePath = path.join(localDir, fileName);
+    const dropboxPath = `/exports/${fileName}`;
+
     const productData = await fetchAllProducts();
-    await saveToCsv(productData,"product.csv");
-    res.download(`${OUTPUT_CSV_PATH}product.csv`);
+    await saveToCsv(productData, fileName, localDir);
+    await uploadToDropbox(localFilePath, dropboxPath);
+    res.download(localFilePath);
+
   } catch (error) {
+    console.error("Error in downloadProducts:", error.message);
     res.status(500).send("Error downloading product data");
   }
 };
+
+module.exports = downloadProducts;
+
 
 const downloadCategoryProducts = async (req, res) => {
   try {
