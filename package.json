@@ -20,6 +20,7 @@
     "express": "^4.21.2",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
+    "isomorphic-fetch": "^3.0.0",
     "json2csv": "^6.0.0-alpha.2",
     "multer": "^2.0.1",
     "node-https": "^0.1.3",
