@@ -333,7 +333,6 @@ const updateVariantPrice = async (variantId, newPrice) => {
       variant: { 
         id: variantId, 
         price: newPrice, 
-        inventory_policy: "deny" 
       } 
     }, { headers });
     console.log(`Price updated for Variant ID: ${variantId}`);

@@ -18,9 +18,9 @@ const uploadToDropbox = async (localPath, dropboxPath) => {
       contents: fileContent,
       mode: 'overwrite',
     });
-    console.log(`✅ Uploaded to Dropbox: ${response.result.path_display}`);
+    console.log(`Uploaded to Dropbox: ${response.result.path_display}`);
   } catch (error) {
-    console.error('❌ Dropbox Upload Error:', error.message);
+    console.error('Dropbox Upload Error:', error.message);
     console.error(error);
     throw error;
   }
