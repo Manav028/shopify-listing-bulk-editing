@@ -2,115 +2,184 @@ const fs = require("fs");
 const readline = require("readline");
 const path = require("path");
 const pLimit = require("p-limit");
+const Bottleneck = require('bottleneck');
 
 const {
   updateVariantPrice,
   addProductToCollection,
   updateSEOmetafield,
-  delay,
   reorderSmartCollection,
+  createSmartCollection,
+  delay,
+  updateProductVendor,
 } = require("../services/shopifyService");
 
-const CONCURRENCY_LIMIT = 5; 
+const limiter = new Bottleneck({
+  maxConcurrent: 2,         // Same as your pLimit
+  minTime: 500              // 500ms delay between each call = 2 requests/sec
+});
 
 exports.uploadFile = async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded.");
 
   const filePath = req.file.path;
+  const fileName = req.file.originalname.toLowerCase();
+  const ext = path.extname(fileName).toLowerCase();
+
   if (!fs.existsSync(filePath)) {
     return res.status(500).send("File does not exist.");
   }
 
-  const uploadedData = [];
-  const rl = readline.createInterface({
-    input: fs.createReadStream(filePath),
-    crlfDelay: Infinity,
-  });
+  if (ext !== ".txt" && ext !== ".tsv") {
+    return res.status(400).send("Invalid file extension. Only .txt or .tsv files are allowed.");
+  }
 
-  let isFirstRow = true;
+  let fileType = null;
+  switch (fileName) {
+    case "price_update.txt":
+    case "price_update.tsv":
+      fileType = "price_update_collection";
+      break;
+    case "seo_metafields.txt":
+    case "seo_metafields.tsv":
+      fileType = "metafield_update";
+      break;
+    case "reorder_products.txt":
+    case "reorder_products.tsv":
+      fileType = "reorder_product";
+      break;
+    case "create_smart_collection.txt":
+    case "create_smart_collection.tsv":
+      fileType = "create_smart_collection";
+      break;
+    case "vendor_update.txt":
+    case "vendor_update.tsv":
+      fileType = "vendor_update";
+      break;
+    default:
+      return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update");
+  }
 
-  rl.on("line", (line) => {
-    if (isFirstRow) {
-      isFirstRow = false;
-      return;
-    }
+  try {
+    const fileStream = fs.createReadStream(filePath);
+    const rl = readline.createInterface({
+      input: fileStream,
+      crlfDelay: Infinity,
+    });
 
-    try {
-      const fields = line.split("\t");
+    let isFirstRow = true;
+    const apiTasks = [];
 
-      if (fields.length === 5) {
-        const [product_id, variant_id, sku, price, collectionId] = fields;
-        uploadedData.push({
-          type: "price_update_collection",
-          product_id,
-          variant_id,
-          sku,
-          price,
-          collectionId,
-        });
-      } else if (fields.length === 2) {
-        const [product_id, product_title] = fields;
-        uploadedData.push({
-          type: "metafield_update",
-          product_id,
-          product_title,
-        });
-      } else if (fields.length === 3) {
-        const [product_id, collectionId, rank] = fields;
-        uploadedData.push({
-          type: "reorder_product",
-          product_id,
-          collectionId,
-          rank,
-        });
-      } else {
-        console.warn(`Skipping invalid line: ${line}`);
+    for await (const line of rl) {
+      if (isFirstRow && fileType !== "create_smart_collection") {
+        isFirstRow = false;
+        continue;
       }
-    } catch (err) {
-      console.error(`Error parsing line: ${line}`, err);
-    }
-  });
 
-  rl.on("close", async () => {
-    const limit = pLimit(CONCURRENCY_LIMIT);
+      try {
+        const fields = line.split("\t");
+        
+        switch (fileType) {
+          case "price_update_collection":
+            if (fields.length !== 5) continue;
+            const [product_id, variant_id, sku, price, collectionId] = fields;
+            apiTasks.push({
+              type: fileType,
+              product_id,
+              variant_id,
+              sku,
+              price,
+              collectionId,
+            });
+            break;
 
-    const tasks = uploadedData.map((data) =>
-      limit(async () => {
-        try {
-          if (data.type === "price_update_collection") {
-            console.log(`Updating Price for SKU: ${data.sku}, Variant ID: ${data.variant_id}`);
-            await updateVariantPrice(data.variant_id, data.price);
+          case "metafield_update":
+            if (fields.length !== 2) continue;
+            const [productIdSEO, product_title] = fields;
+            apiTasks.push({
+              type: fileType,
+              product_id: productIdSEO,
+              product_title,
+            });
+            break;
 
-            if (data.collectionId) {
-              console.log(`Adding Product ID: ${data.product_id} to Collection ID: ${data.collectionId}`);
-              await addProductToCollection(data.product_id, data.collectionId);
+          case "reorder_product":
+            if (fields.length !== 3) continue;
+            console.log(fields);
+            const [productIdReorder, collectionIdReorder, rank] = fields;
+            apiTasks.push({
+              type: fileType,
+              product_id: productIdReorder,
+              collectionId: collectionIdReorder,
+              rank,
+            });
+            break;
+
+          case "create_smart_collection":
+            const vendorName = line.trim();
+            if (vendorName) {
+              apiTasks.push({
+                type: fileType,
+                vendor: vendorName,
+              });
             }
+            break;
 
-          } else if (data.type === "metafield_update") {
-            console.log(`Updating SEO Metafields for Product ID: ${data.product_id}`);
-            await updateSEOmetafield(data.product_id, data.product_title);
-
-          } else if (data.type === "reorder_product") {
-            console.log(`Reordering Product ID: ${data.product_id} in Collection ID: ${data.collectionId} to position ${data.rank}`);
-            await reorderSmartCollection(data.collectionId, data.product_id, data.rank.toString());
-          }
-        } catch (err) {
-          console.error(`Error processing data for product ${data.product_id || data.sku}:`, err.message);
+          case "vendor_update":
+            if (fields.length !== 2) continue;
+            const [productId, vendor] = fields;
+            apiTasks.push({
+              type: fileType,
+              productId,
+              vendor,
+            });
+            break;
         }
-      })
-    );
-
-    try {
-      await Promise.allSettled(tasks);
-      res.status(200).send("File processed successfully!");
-    } catch (error) {
-      console.error("Error during batch processing:", error.message);
-      res.status(500).send("Error processing data.");
+      } catch (err) {
+        console.error(`Error parsing line: ${line}`, err);
+      }
     }
-  });
 
-  rl.on("error", (error) => {
-    console.error("Error reading file:", error.message);
-    res.status(500).send("Error reading file.");
-  });
+    const processTask = async (task) => {
+      try {
+        switch (task.type) {
+          case "price_update_collection":
+            await updateVariantPrice(task.variant_id, task.price);
+            if (task.collectionId) {
+              await addProductToCollection(task.product_id, task.collectionId);
+            }
+            break;
+
+          case "metafield_update":
+            await updateSEOmetafield(task.product_id, task.product_title);
+            break;
+
+          case "reorder_product":
+            await reorderSmartCollection(task.collectionId, task.product_id, task.rank);
+            break;
+
+          case "create_smart_collection":
+            await createSmartCollection(task.vendor);
+            break;
+
+          case "vendor_update":
+            await updateProductVendor(task.productId, task.vendor);
+            break;
+        }
+      } catch (err) {
+        console.error(`Error processing ${task.sku || task.product_id || task.vendor}:`, err.message);
+      }
+    };
+
+    const taskPromises = apiTasks.map(task =>
+      limiter.schedule(() => processTask(task))
+    );
+    
+    await Promise.all(taskPromises);
+    res.status(200).send("File processed successfully!");
+
+  } catch (error) {
+    console.error("Processing error:", error);
+    res.status(500).send("Error processing file");
+  }
 };

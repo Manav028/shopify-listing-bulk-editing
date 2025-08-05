@@ -10,8 +10,6 @@ router.get("/metafield-products",downloadMetafieldproduct);
 router.get("/getcollection",downloadSmartCollections);
 // router.get("/trial",openaiSEO);  openaiSEO direct link for trial version
 
-
-
 module.exports = router;
 
 

@@ -130,7 +130,7 @@ const updateSEOmetafield = async (productId, productname) => {
           { metafield },
           { headers }
         );
-        
+
       } else {
         await axios.post(
           `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products/${productId}/metafields.json`,
@@ -140,7 +140,7 @@ const updateSEOmetafield = async (productId, productname) => {
       }
     }
 
-    await updateProductDetails(productId,product_description,meta_title)
+    await updateProductDetails(productId, product_description, meta_title)
 
     console.log(`SEO Metafields updated for Product ID: ${productId}`);
     return { success: true };
@@ -170,9 +170,9 @@ const updateProductDetails = async (productId, newDescription, metaTitle) => {
 
     const seoHandle = metaTitle
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")     
-      .replace(/^-+|-+$/g, "")         
-      .substring(0, 255);         
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .substring(0, 255);
 
     const updatedProductData = {
       product: {
@@ -329,11 +329,11 @@ const updateVariantPrice = async (variantId, newPrice) => {
 
   try {
     console.log("Sending data to update price:", { variant: { id: variantId, price: newPrice } });
-    await axios.put(SHOPIFY_GRAPHQL_URL, { 
-      variant: { 
-        id: variantId, 
-        price: newPrice, 
-      } 
+    await axios.put(SHOPIFY_GRAPHQL_URL, {
+      variant: {
+        id: variantId,
+        price: newPrice,
+      }
     }, { headers });
     console.log(`Price updated for Variant ID: ${variantId}`);
   } catch (error) {
@@ -361,18 +361,18 @@ const addProductToCollection = async (productId, collectionId) => {
   }
 };
 
-const reorderSmartCollection = async (collectionId,productId,rank) => {
-   const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
+const reorderSmartCollection = async (collectionId, productId, rank) => {
+  const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
 
-   const query = `
-    mutation collectionReorderProducts($id: ID!, $moves: [MoveInput!]!) {
-      collectionReorderProducts(id: $id, moves: $moves) {
-        job { id done }
-        userErrors { field message }
-      }
-    }`;
+  const query = `
+      mutation collectionReorderProducts($id: ID!, $moves: [MoveInput!]!) {
+        collectionReorderProducts(id: $id, moves: $moves) {
+          job { id done }
+          userErrors { field message }
+        }
+      }`;
 
-    const variables = {
+  const variables = {
     id: `gid://shopify/Collection/${collectionId}`,
     moves: [
       {
@@ -381,8 +381,8 @@ const reorderSmartCollection = async (collectionId,productId,rank) => {
       },
     ],
   };
-    
-    try {
+
+  try {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -410,7 +410,7 @@ const reorderSmartCollection = async (collectionId,productId,rank) => {
   }
 }
 
-const fetchAllCollections  = async () => {
+const fetchAllCollections = async () => {
   const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title&limit=250`;
   const allCollections = [];
   let url = urlBase;
@@ -434,9 +434,9 @@ const fetchAllCollections  = async () => {
       url =
         response.headers.link && response.headers.link.includes('rel="next"')
           ? response.headers.link
-              .split(',')
-              .find((link) => link.includes('rel="next"'))
-              .match(/<(.*?)>/)[1]
+            .split(',')
+            .find((link) => link.includes('rel="next"'))
+            .match(/<(.*?)>/)[1]
           : null;
 
     } catch (error) {
@@ -449,8 +449,89 @@ const fetchAllCollections  = async () => {
   return allCollections;
 };
 
+const createSmartCollection = async (vendorName) => {
+  const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
+
+  const query = `
+    mutation collectionCreate($input: CollectionInput!) {
+      collectionCreate(input: $input) {
+        collection {
+          id
+          title
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    input: {
+      title: `${z}`,
+      ruleSet: {
+        appliedDisjunctively: false, // AND logic
+        rules: [
+          {
+            column: "VENDOR",
+            relation: "EQUALS",
+            condition: vendorName.toString(),
+          },
+        ],
+      },
+    },
+  };
+
+  try {
+    const response = await axios.post(
+      url,
+      { query, variables },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Shopify-Access-Token": ACCESS_TOKEN,
+        },
+      }
+    );
+
+    const { collectionCreate } = response.data.data;
+
+    if (collectionCreate.userErrors.length > 0) {
+      console.error("GraphQL Errors:", collectionCreate.userErrors);
+    } else {
+      console.log(`Smart collection created for vendor ${vendorName}: ${collectionCreate.collection.id}`);
+    }
+  } catch (error) {
+    console.error(`Error creating smart collection for vendor ${vendorName}:`, error.response?.data || error.message);
+  }
+};
+
+const updateProductVendor = async (productId, vendorName) => {
+  try {
+    console.log(`🔹 Updating vendor for Product ID: ${productId} to "${vendorName}"`);
+
+    const response = await axios.put(
+      `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products/${productId}.json`,
+      {
+        product: {
+          id: productId,
+          vendor: vendorName,
+        },
+      },
+      { headers }
+    );
+
+    console.log(`Vendor updated to "${vendorName}" for Product ID: ${productId}`);
+    return response.data.product;
+
+  } catch (error) {
+    console.error(`Error updating vendor for Product ID ${productId}:`, error.response?.data || error.message);
+    throw error;
+  }
+};
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-
-module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields ,updateSEOmetafield, reorderSmartCollection, fetchAllCollections};
+module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections,createSmartCollection,updateProductVendor };
 

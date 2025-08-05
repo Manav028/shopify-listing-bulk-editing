@@ -15,7 +15,6 @@ const downloadProducts = async (req, res) => {
     await saveToCsv(productData, fileName, localDir);
     await uploadToDropbox(localFilePath, dropboxPath);
     res.download(localFilePath);
-
   } catch (error) {
     console.error("Error in downloadProducts:", error.message);
     res.status(500).send("Error downloading product data");
@@ -47,11 +46,19 @@ const downloadMetafieldproduct = async(req,res) =>{
 
 const downloadSmartCollections = async (req, res) => {
   try {
+
+    const fileName = 'SmartCollection.csv';
+    const localDir = '/tmp'; 
+    const localFilePath = path.join(localDir, fileName);
+    const dropboxPath = `/exports/${fileName}`;
+
     const productData = await fetchAllCollections();
-    await saveToCsv(productData,"SmartCollection.csv");
-    res.download(`${OUTPUT_CSV_PATH}SmartCollection.csv`);
-  } catch (error) {
-    res.status(500).send("Error downloading product data");
+    await saveToCsv(productData, fileName, localDir);
+    await uploadToDropbox(localFilePath, dropboxPath);
+    res.download(localFilePath);
+  }catch (error) {
+    console.error("Error in downloadSmartCollections:", error.message);
+    res.status(500).send("Error download Smart Collections data");
   }
 };
 
