@@ -105,7 +105,6 @@ exports.uploadFile = async (req, res) => {
 
           case "reorder_product":
             if (fields.length !== 3) continue;
-            console.log(fields);
             const [productIdReorder, collectionIdReorder, rank] = fields;
             apiTasks.push({
               type: fileType,
