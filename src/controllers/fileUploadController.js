@@ -38,13 +38,13 @@ exports.uploadFile = async (req, res) => {
   switch (fileName) {
     case "price_update.txt":
     case "price_update.tsv":
-      fileType = "price_update_collection";
+      fileType = "price_update";
       break;
     case "seo_metafields.txt":
     case "seo_metafields.tsv":
       fileType = "metafield_update";
       break;
-    case "reorder_products.txt":
+    case "  .txt":
     case "reorder_products.tsv":
       fileType = "reorder_product";
       break;
@@ -55,6 +55,10 @@ exports.uploadFile = async (req, res) => {
     case "vendor_update.txt":
     case "vendor_update.tsv":
       fileType = "vendor_update";
+      break;
+    case "collection_update.txt":
+    case "collection_update.tsv":
+      fileType = "collection_update";
       break;
     default:
       return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update");
@@ -80,16 +84,15 @@ exports.uploadFile = async (req, res) => {
         const fields = line.split("\t");
         
         switch (fileType) {
-          case "price_update_collection":
-            if (fields.length !== 5) continue;
-            const [product_id, variant_id, sku, price, collectionId] = fields;
+          case "price_update":
+            if (fields.length !== 4) continue;
+            const [product_id, variant_id, sku, price] = fields;
             apiTasks.push({
               type: fileType,
               product_id,
               variant_id,
               sku,
               price,
-              collectionId,
             });
             break;
 
@@ -133,6 +136,17 @@ exports.uploadFile = async (req, res) => {
               vendor,
             });
             break;
+
+          case "collection_update":
+            if (fields.length !== 2) continue;
+            const [productIdCollection, collectionId] = fields;
+            apiTasks.push({
+              type: fileType,
+              product_id: productIdCollection,
+              collectionId,
+            });
+            break;
+            
         }
       } catch (err) {
         console.error(`Error parsing line: ${line}`, err);
@@ -144,9 +158,9 @@ exports.uploadFile = async (req, res) => {
         switch (task.type) {
           case "price_update_collection":
             await updateVariantPrice(task.variant_id, task.price);
-            if (task.collectionId) {
-              await addProductToCollection(task.product_id, task.collectionId);
-            }
+            // if (task.collectionId) {
+            //   await addProductToCollection(task.product_id, task.collectionId);
+            // }
             break;
 
           case "metafield_update":
@@ -163,6 +177,10 @@ exports.uploadFile = async (req, res) => {
 
           case "vendor_update":
             await updateProductVendor(task.productId, task.vendor);
+            break;
+
+          case "collection_update":
+              await addProductToCollection(task.product_id, task.collectionId);
             break;
         }
       } catch (err) {
