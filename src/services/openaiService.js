@@ -3,7 +3,7 @@ const { OPENAI_API } = require('../config/config');
 
 const openai = new OpenAI({ apiKey: OPENAI_API });
 
-const openaiSEO = async (productTitle) => {
+const openaiSEO = async (productTitle) => { 
   console.log("Running OpenAI SEO Analysis...");
 
   if (!productTitle) return { error: "Product title is required" };

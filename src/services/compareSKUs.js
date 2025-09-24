@@ -1,16 +1,24 @@
 require("dotenv").config();
 const path = require("path");
 const fs = require("fs");
-const csv = require("csv-parser");
 const { fetchAllProducts } = require("./shopifyService");
 const { readSKUsFromCSV, saveToCsv } = require("./csvService");
+const { uploadToDropbox } = require("../utils/uploadToDropbox");
+const { downloadFromDropbox } = require("../utils/uploadToDropbox");
 
-const compareSKUs = async (csvFilePath) => {
+const compareSKUs = async (dropboxCsvPath) => {
   try {
     console.time("SKU Comparison Time");
 
+    // 1. Download CSV from Dropbox → /tmp
+    const localCsvPath = await downloadFromDropbox(
+      dropboxCsvPath,
+      "peglabel.csv"
+    );
+
+    // 2. Run comparison
     const [skuPriceMap, shopifyProducts] = await Promise.all([
-      readSKUsFromCSV(csvFilePath),
+      readSKUsFromCSV(localCsvPath),
       fetchAllProducts(),
     ]);
 
@@ -24,16 +32,22 @@ const compareSKUs = async (csvFilePath) => {
 
     console.timeEnd("SKU Comparison Time");
 
-    fs.writeFileSync("sku_result.json", JSON.stringify(result, null, 2));
-    await saveToCsv(result, `${Date.now()}-Price-increase.csv`);
+    // 3. Save results to /tmp
+    const fileName = 'DailyCompare.csv';
+    const localDir = '/tmp'; 
+    const localFilePath = path.join(localDir, fileName);
+    const dropboxPath = `/exports/${fileName}`;
+    await saveToCsv(result, fileName, localDir);
 
     console.log("Comparison completed.");
+
+    // 4. Upload results back to Dropbox
+    await uploadToDropbox(localFilePath, dropboxPath);
+
+    console.log("Results uploaded to Dropbox.");
   } catch (err) {
     console.error("SKU Comparison Failed:", err.message);
   }
 };
-
-const csvPath = path.join(__dirname, "../../allproduct", "peglabel.csv");
-compareSKUs(csvPath);
 
 module.exports = { compareSKUs };

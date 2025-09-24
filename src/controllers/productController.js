@@ -3,6 +3,7 @@ const { saveToCsv } = require("../services/csvService");
 const { OUTPUT_CSV_PATH } = require("../config/config");
 const {uploadToDropbox} = require('../utils/uploadToDropbox');
 const path = require('path');
+const {compareSKUs} = require("../services/compareSKUs")
 
 const downloadProducts = async (req, res) => {
   try {
@@ -62,5 +63,14 @@ const downloadSmartCollections = async (req, res) => {
   }
 };
 
+const compareSKUsdaily = async(req,res) => {
+  try{
+    const SKUdata = await compareSKUs("/Outbound/peglabel.csv")
+    res.json({ success: true, message: "Comparison completed & uploaded." });
+  }catch(error){
+    res.status(500).json({ success: false, error: err.message });
+  }
+}
 
-module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections}
+
+module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections,compareSKUsdaily}
