@@ -85,14 +85,15 @@ exports.uploadFile = async (req, res) => {
         
         switch (fileType) {
           case "price_update":
-            if (fields.length !== 4) continue;
-            const [product_id, variant_id, sku, price] = fields;
+            if (fields.length < 4) continue;
+            const [product_id, variant_id, sku, price, compare_at_price] = fields;
             apiTasks.push({
               type: fileType,
               product_id,
               variant_id,
               sku,
               price,
+              compare_at_price: compare_at_price || null,
             });
             break;
 
@@ -156,8 +157,8 @@ exports.uploadFile = async (req, res) => {
     const processTask = async (task) => {
       try {
         switch (task.type) {
-          case "price_update_collection":
-            await updateVariantPrice(task.variant_id, task.price);
+          case "price_update": 
+            await updateVariantPrice(task.variant_id, task.price,task.compare_at_price);
             // if (task.collectionId) {
             //   await addProductToCollection(task.product_id, task.collectionId);
             // }

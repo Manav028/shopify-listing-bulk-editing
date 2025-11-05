@@ -324,22 +324,29 @@ const fetchCategoryProducts = async (collectionid) => {
 };
 
 // Update product price
-const updateVariantPrice = async (variantId, newPrice) => {
+const updateVariantPrice = async (variantId, newPrice, compareAtPrice = null) => {
   const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE}/admin/api/2024-01/variants/${variantId}.json`;
 
   try {
-    console.log("Sending data to update price:", { variant: { id: variantId, price: newPrice } });
-    await axios.put(SHOPIFY_GRAPHQL_URL, {
-      variant: {
-        id: variantId,
-        price: newPrice,
-      }
-    }, { headers });
+    const variantData = {
+      id: variantId,
+      price: newPrice,
+    };
+
+    if (compareAtPrice !== null && compareAtPrice !== "" && !isNaN(compareAtPrice)) {
+      variantData.compare_at_price = compareAtPrice;
+    }
+
+    console.log("Sending data to update price:", { variant: variantData });
+
+    await axios.put(SHOPIFY_GRAPHQL_URL, { variant: variantData }, { headers });
+
     console.log(`Price updated for Variant ID: ${variantId}`);
   } catch (error) {
     console.error(`Error updating variant ID ${variantId}:`, error.response ? error.response.data : error.message);
+
     if (await handleRateLimit(error)) {
-      return updateVariantPrice(variantId, newPrice);
+      return updateVariantPrice(variantId, newPrice, compareAtPrice);
     }
   }
 };
