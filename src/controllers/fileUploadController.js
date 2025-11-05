@@ -19,6 +19,8 @@ const limiter = new Bottleneck({
   minTime: 500              // 500ms delay between each call = 2 requests/sec
 });
 
+// manav
+
 exports.uploadFile = async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded.");
 
@@ -85,14 +87,15 @@ exports.uploadFile = async (req, res) => {
         
         switch (fileType) {
           case "price_update":
-            if (fields.length !== 4) continue;
-            const [product_id, variant_id, sku, price] = fields;
+            if (fields.length < 4) continue;
+            const [product_id, variant_id, sku, price, compare_at_price] = fields;
             apiTasks.push({
               type: fileType,
               product_id,
               variant_id,
               sku,
               price,
+              compare_at_price: compare_at_price || null,
             });
             break;
 
@@ -156,9 +159,7 @@ exports.uploadFile = async (req, res) => {
     const processTask = async (task) => {
       try {
         switch (task.type) {
-          case "price_update":
-            
-            await updateVariantPrice(task.variant_id, task.price);
+
             // if (task.collectionId) {
             //   await addProductToCollection(task.product_id, task.collectionId);
             // }
