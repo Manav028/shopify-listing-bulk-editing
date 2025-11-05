@@ -19,6 +19,8 @@ const limiter = new Bottleneck({
   minTime: 500              // 500ms delay between each call = 2 requests/sec
 });
 
+// manav
+
 exports.uploadFile = async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded.");
 
