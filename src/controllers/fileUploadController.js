@@ -159,8 +159,7 @@ exports.uploadFile = async (req, res) => {
     const processTask = async (task) => {
       try {
         switch (task.type) {
-          case "price_update": 
-            await updateVariantPrice(task.variant_id, task.price,task.compare_at_price);
+
             // if (task.collectionId) {
             //   await addProductToCollection(task.product_id, task.collectionId);
             // }

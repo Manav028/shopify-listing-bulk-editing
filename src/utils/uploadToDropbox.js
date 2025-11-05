@@ -55,4 +55,24 @@ const uploadToDropbox = async (localPath, dropboxPath) => {
   }
 };
 
-module.exports = { uploadToDropbox };
+const downloadFromDropbox = async (dropboxPath, localFilename) => {
+  const accessToken = await getAccessTokenFromRefreshToken();
+
+  const dbx = new Dropbox({ accessToken, fetch });
+
+  try {
+    const response = await dbx.filesDownload({ path: dropboxPath });
+
+    const fileData = response.result.fileBinary;
+    const localPath = `/tmp/${localFilename}`;
+    fs.writeFileSync(localPath, fileData);
+
+    console.log(`Downloaded from Dropbox: ${dropboxPath} → ${localPath}`);
+    return localPath;
+  } catch (error) {
+    console.error("Dropbox Download Error:", error.message);
+    throw error;
+  }
+}
+
+module.exports = { uploadToDropbox, downloadFromDropbox };
