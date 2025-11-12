@@ -418,7 +418,7 @@ const reorderSmartCollection = async (collectionId, productId, rank) => {
 }
 
 const fetchAllCollections = async () => {
-  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title&limit=250`;
+  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title,rules&limit=250`;
   const allCollections = [];
   let url = urlBase;
 
@@ -430,11 +430,14 @@ const fetchAllCollections = async () => {
 
       console.log(`Fetched ${collections.length} smart collections`);
 
+
       collections.forEach((collection) => {
+
         allCollections.push({
           id: collection.id,
           title: collection.title,
           type: 'smart',
+          rules: collection.rules,
         });
       });
 
@@ -478,7 +481,7 @@ const createSmartCollection = async (vendorName) => {
     input: {
       title: `${z}`,
       ruleSet: {
-        appliedDisjunctively: false, // AND logic
+        appliedDisjunctively: false,
         rules: [
           {
             column: "VENDOR",

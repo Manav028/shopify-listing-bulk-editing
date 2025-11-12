@@ -46,7 +46,7 @@ exports.uploadFile = async (req, res) => {
     case "seo_metafields.tsv":
       fileType = "metafield_update";
       break;
-    case "  .txt":
+    case "reorder_products.txt":
     case "reorder_products.tsv":
       fileType = "reorder_product";
       break;
