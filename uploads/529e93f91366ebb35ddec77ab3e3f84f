@@ -1,0 +1,2 @@
+title	rules	disjunctive
+CHRISTMAS	[{"column":"product_metafield_definition","relation":"equals","condition":"CHRISTMAS","condition_object_id":198437699933},{"column":"title","relation":"contains","condition":"CHRISTMAS"}]	TRUE

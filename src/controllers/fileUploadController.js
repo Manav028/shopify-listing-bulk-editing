@@ -3,6 +3,7 @@ const readline = require("readline");
 const path = require("path");
 const pLimit = require("p-limit");
 const Bottleneck = require('bottleneck');
+const { deleteProduct } = require("../services/cscartService");
 
 const {
   updateVariantPrice,
@@ -10,16 +11,20 @@ const {
   updateSEOmetafield,
   reorderSmartCollection,
   createSmartCollection,
-  delay,
   updateProductVendor,
+  createSmartCollectionWithJSON,
+  migrateVendorRuleToMetafield,
+  updateItemManufacturesMetafield,
+  updatePublishedDate,
+  createProduct,
+  uploadProductImage,
+  deleteProduct: deleteProductShopify
 } = require("../services/shopifyService");
 
 const limiter = new Bottleneck({
   maxConcurrent: 2,         // Same as your pLimit
   minTime: 500              // 500ms delay between each call = 2 requests/sec
 });
-
-// manav
 
 exports.uploadFile = async (req, res) => {
   if (!req.file) return res.status(400).send("No file uploaded.");
@@ -62,8 +67,40 @@ exports.uploadFile = async (req, res) => {
     case "collection_update.tsv":
       fileType = "collection_update";
       break;
+    case "create_smart_json.txt":
+    case "create_smart_json.tsv":
+      fileType = "create_smart_JSON";
+      break;
+    case "migrate_vendor_rule_to_metafield.txt":
+    case "migrate_vendor_rule_to_metafield.tsv":
+      fileType = "migrate_vendor_rule_to_metafield";
+      break;
+    case "updateitemmanufacturesmetafield.txt":
+    case "updateitemmanufacturesmetafield.tsv":
+      fileType = "updateItemManufacturesMetafield";
+      break;
+    case "update_publisheddate.txt":
+    case "update_publisheddate.tsv":
+      fileType = "update_PublishedDate";
+      break;
+    case "delete_products.txt":
+    case "delete_products.tsv":
+      fileType = "delete_products";
+      break;
+    case "create_product.txt":
+    case "create_product.tsv":
+      fileType = "create_product";
+      break;
+    case "upload_product_image.txt":
+    case "upload_product_image.tsv":
+      fileType = "upload_product_image";
+      break;
+    case "delete_products.txt":
+    case "delete_products.tsv":
+      fileType = "delete_products";
+      break;
     default:
-      return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update");
+      return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update,create_smart_JSON");
   }
 
   try {
@@ -84,7 +121,7 @@ exports.uploadFile = async (req, res) => {
 
       try {
         const fields = line.split("\t");
-        
+
         switch (fileType) {
           case "price_update":
             if (fields.length < 4) continue;
@@ -149,7 +186,92 @@ exports.uploadFile = async (req, res) => {
               collectionId,
             });
             break;
-            
+
+          case "create_smart_JSON":
+            if (fields.length < 3) continue;
+            const [collectionTitle, rulesJSON, disjunctiveFlag, description] = fields;
+            apiTasks.push({
+              type: fileType,
+              title: collectionTitle.trim(),
+              rulesJSON: rulesJSON.trim(),
+              disjunctive: String(disjunctiveFlag).trim().toLowerCase() === "true",
+              description: description,
+            });
+            break;
+
+          case "migrate_vendor_rule_to_metafield":
+            if (fields.length !== 1) continue;
+            const [collection_Id] = fields;
+            apiTasks.push({
+              type: fileType,
+              collectionId: collection_Id,
+            })
+            break;
+
+          case "updateItemManufacturesMetafield":
+            if (fields.length !== 2) continue;
+            const [productIdManufacture, manufacturer] = fields;
+            apiTasks.push({
+              type: fileType,
+              productId: productIdManufacture,
+              manufacturer,
+            });
+            break;
+
+          case "update_PublishedDate":
+            if (fields.length !== 2) continue;
+            const [productIdPublishedDate, publishedDate] = fields;
+            apiTasks.push({
+              type: fileType,
+              productId: productIdPublishedDate,
+              publishedDate,
+            });
+            break;
+
+          case "delete_products":
+            if (fields.length !== 1) continue;
+            const [productIdToDelete] = fields;
+
+            apiTasks.push({
+              type: fileType,
+              productId: productIdToDelete,
+            });
+            break;
+
+          case "create_product":
+            if (fields.length < 2) continue;
+
+            const [title, Product_sku, Product_price, chargeTax] = fields;
+
+            apiTasks.push({
+              type: fileType,
+              title,
+              sku: Product_sku,
+              price: Product_price || "0.00",
+              chargeTax: chargeTax === "false" ? false : true
+            });
+            break;
+
+          case "upload_product_image":
+            if (fields.length < 2) continue;
+
+            const [productId_code, imageUrl, altText] = fields;
+
+            apiTasks.push({
+              type: fileType,
+              productId: productId_code,
+              imageUrl,
+              altText: altText || ""
+            });
+            break;
+
+          case "delete_products":
+            if (fields.length !== 1) continue;
+            const [productIdToDelete2] = fields;
+            apiTasks.push({
+              type: fileType,
+              productId: productIdToDelete
+            });
         }
       } catch (err) {
         console.error(`Error parsing line: ${line}`, err);
@@ -160,7 +282,7 @@ exports.uploadFile = async (req, res) => {
       try {
         switch (task.type) {
           case "price_update":
-            await updateVariantPrice(task.variant_id,task.price,task.compare_at_price)
+            await updateVariantPrice(task.variant_id, task.price, task.compare_at_price)
             // if (task.collectionId) {
             //   await addProductToCollection(task.product_id, task.collectionId);
             // }
@@ -183,18 +305,65 @@ exports.uploadFile = async (req, res) => {
             break;
 
           case "collection_update":
-              await addProductToCollection(task.product_id, task.collectionId);
+            await addProductToCollection(task.product_id, task.collectionId);
+            break;
+
+          case "create_smart_JSON":
+            let rules;
+            try {
+              rules = JSON.parse(task.rulesJSON);
+            } catch (err) {
+              console.error("Invalid rules JSON:", task.rulesJSON);
+              break;
+            }
+
+            await createSmartCollectionWithJSON(task.title, rules, task.disjunctive, task.description);
+            break;
+
+          case "migrate_vendor_rule_to_metafield":
+            await migrateVendorRuleToMetafield(task.collectionId);
+            break;
+
+          case "updateItemManufacturesMetafield":
+            await updateItemManufacturesMetafield(task.productId, task.manufacturer);
+            break;
+
+          case "update_PublishedDate":
+            await updatePublishedDate(task.productId, task.publishedDate);
+            break;
+
+          case "delete_products":
+            const deleteResult = await deleteProduct(task.productId);
+            if (!deleteResult.success) {
+              console.error(`Failed to delete product ${task.productId}:`, deleteResult.error);
+            } else {
+              console.log(`Deleted product ${task.productId}`, deleteResult.fallback ? "(fallback used)" : "");
+            }
+            break;
+
+          case "create_product":
+            await createProduct(task.title,task.sku,task.price,task.chargeTax);
+            break;
+          
+          case "upload_product_image":
+            await uploadProductImage(task.productId, task.imageUrl, task.altText);
+            break;  
+
+          case "delete_products":
+            await deleteProductShopify(task.productId);
             break;
         }
+
+
       } catch (err) {
-        console.error(`Error processing ${task.sku || task.product_id || task.vendor}:`, err.message);
+        console.error(`Error processing ${task.sku || task.product_Id || task.vendor}:`, err.message);
       }
     };
 
     const taskPromises = apiTasks.map(task =>
       limiter.schedule(() => processTask(task))
     );
-    
+
     await Promise.all(taskPromises);
     res.status(200).send("File processed successfully!");
 

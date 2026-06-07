@@ -1,13 +1,13 @@
-const { fetchAllProducts,fetchCategoryProducts,fetchMetafields, fetchAllCollections} = require("../services/shopifyService");
+const { fetchAllProducts,fetchCategoryProducts,fetchMetafields, fetchAllCollections,fetchProductMetafields, fetchAllProductsVendor} = require("../services/shopifyService");
 const { saveToCsv } = require("../services/csvService");
-const { OUTPUT_CSV_PATH } = require("../config/config");
+const { OUTPUT_CSV_PATH , STORE_NAME } = require("../config/config");
 const {uploadToDropbox} = require('../utils/uploadToDropbox');
 const path = require('path');
 const {compareSKUs} = require("../services/compareSKUs")
 
 const downloadProducts = async (req, res) => {
   try {
-    const fileName = 'ToysGiftsproduct.csv';
+    const fileName = `${STORE_NAME}products.csv`;
     const localDir = '/tmp'; 
     const localFilePath = path.join(localDir, fileName);
     const dropboxPath = `/exports/${fileName}`;
@@ -21,9 +21,6 @@ const downloadProducts = async (req, res) => {
     res.status(500).send("Error downloading product data");
   }
 };
-
-module.exports = downloadProducts;
-
 
 const downloadCategoryProducts = async (req, res) => {
   try {
@@ -72,5 +69,33 @@ const compareSKUsdaily = async(req,res) => {
   }
 }
 
+const fetchProductMetafield = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    const metafields = await fetchProductMetafields(productId);
+    res.json(metafields);
+  } catch (error) {
+    console.error("Error fetching product metafields:", error.message);
+    res.status(500).send("Error fetching product metafields");
+  }
+}
 
-module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections,compareSKUsdaily}
+const fetchproductVendor = async (req, res) => {
+  try {
+    const fileName = `${STORE_NAME}Vendor.csv`;
+    const localDir = '/tmp'; 
+    const localFilePath = path.join(localDir, fileName);
+    const dropboxPath = `/exports/${fileName}`;
+
+    const productData = await fetchAllProductsVendor();
+    await saveToCsv(productData, fileName, localDir);
+    await uploadToDropbox(localFilePath, dropboxPath);
+    res.download(localFilePath);
+  } catch (error) {
+    console.error("Error in fetchproductVendor:", error.message);
+    res.status(500).send("Error downloading product vendor data");
+  }
+}
+
+
+module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections,compareSKUsdaily,fetchProductMetafield,fetchproductVendor};

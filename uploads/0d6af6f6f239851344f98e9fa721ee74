@@ -1,0 +1,366 @@
+title	rules	disjunctive	body_html
+BATHROOM ACCESSORIES AND DECOR	[{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM ESSENTIAL","condition_object_id":248557076865},{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM ACCESSORIES AND DECOR","condition_object_id":248557044097}]	FALSE	
+LIGHTERS AND MATCH BOXES	[{"column":"product_metafield_definition","relation":"equals","condition":"LIGHTERS AND MATCH BOXES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"SMOKING ACC. & BATTERIES","condition_object_id":248557076865}]	FALSE	
+POLISHING PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"POLISHING PRODUCTS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"CLEANING AND LAUNDRY PRODUCTS","condition_object_id":248557076865}]	FALSE	
+CLEANING PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"CLEANING AND LAUNDRY PRODUCTS","condition_object_id":248557076865},{"column":"product_metafield_definition","relation":"equals","condition":"CLEANING PRODUCTS","condition_object_id":248557044097}]	FALSE	<p>Keep your home spotless with our top-rated cleaning products â€” from multi-surface sprays to tough stain removers. Powerful, safe, and easy to use. Shop now for a cleaner tomorrow</p>
+LAUNDRY PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"LAUNDRY PRODUCTS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"CLEANING AND LAUNDRY PRODUCTS","condition_object_id":248557076865}]	FALSE	
+MOBILITY PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"MOBILITY PRODUCTS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH BEAUTY CARE PRODUCTS","condition_object_id":248557076865}]	FALSE	
+BATHROOM STORAGE SOLUTION	[{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM STORAGE SOLUTION","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+SMOKING ACCESSORIES	[{"column":"product_metafield_definition","relation":"equals","condition":"SMOKING ACCESSORIES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"SMOKING ACC. & BATTERIES","condition_object_id":248557076865}]	FALSE	
+FOOD PREPARATION & TOOLS	[{"column":"product_metafield_definition","relation":"equals","condition":"FOOD PREPARATION & TOOLS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+HOME PHONE AND MOBILE ACCESORIES	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME PHONE AND MOBILE ACCESORIES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+BEAUTY CARE	[{"column":"product_metafield_definition","relation":"equals","condition":"BEAUTY CARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH BEAUTY CARE PRODUCTS","condition_object_id":248557076865}]	FALSE	
+HEALTH CARE	[{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH CARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH BEAUTY CARE PRODUCTS","condition_object_id":248557076865}]	FALSE	
+CANDLES & INCENSE STICK	[{"column":"product_metafield_definition","relation":"equals","condition":"CANDLES & INCENSE STICK","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+BABY CARE	[{"column":"product_metafield_definition","relation":"equals","condition":"BABY CARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH BEAUTY CARE PRODUCTS","condition_object_id":248557076865}]	FALSE	
+HOME STORAGE SOLUTIONS	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME STORAGE SOLUTIONS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+TOILET ACCESSORIES	[{"column":"product_metafield_definition","relation":"equals","condition":"TOILET ACCESSORIES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+ART & CRAFT	[{"column":"product_metafield_definition","relation":"equals","condition":"ART & CRAFT","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"STATIONERY / ART & CRAFT","condition_object_id":248557076865}]	FALSE	<p>Buy <strong data-start="250" data-end="293">affordable &amp; cheap Art &amp; Craft supplies</strong> from <strong data-start="299" data-end="355">Londonâ€™s best wholesaler &amp; Watfordâ€™s best wholesaler</strong>. Get paints, brushes, DIY craft kits &amp; more at wholesale prices. Perfect for artists, students &amp; hobbyists. Shop in bulk &amp; save!</p>
+KITCHEN APPLIANCES	[{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN APPLIANCES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+BATTERIES	[{"column":"product_metafield_definition","relation":"equals","condition":"BATTERIES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"SMOKING ACC. & BATTERIES","condition_object_id":248557076865}]	FALSE	<p>Power up your devices with our reliable selection of long-lasting batteries. From everyday essentials to specialty power needs â€” shop now and stay charged anytime, anywhere!</p>
+OUTDOOR AND GARDEN	[{"column":"product_metafield_definition","relation":"equals","condition":"OUTDOOR AND GARDEN","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+PACKING MATERIALS	[{"column":"product_metafield_definition","relation":"equals","condition":"PACKING MATERIALS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+TRAVEL ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"TRAVEL ESSENTIAL","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+WINTER ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"WINTER ESSENTIAL","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+CUTLERY SETS	[{"column":"product_metafield_definition","relation":"equals","condition":"CUTLERY SETS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+FOOD STORAGE	[{"column":"product_metafield_definition","relation":"equals","condition":"FOOD STORAGE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+SEWING PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"SEWING PRODUCTS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+SMALL APPLIANCE	[{"column":"product_metafield_definition","relation":"equals","condition":"SMALL APPLIANCE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+PAINT AND DECORATING	[{"column":"product_metafield_definition","relation":"equals","condition":"PAINT AND DECORATING","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+PEST CONTROLS	[{"column":"product_metafield_definition","relation":"equals","condition":"PEST CONTROLS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+TOOLS AND WORK WEAR	[{"column":"product_metafield_definition","relation":"equals","condition":"TOOLS AND WORK WEAR","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+CONFECTIONERY	[{"column":"product_metafield_definition","relation":"equals","condition":"CONFECTIONERY","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"GIFTS / PARTY","condition_object_id":248557076865}]	FALSE	
+GLASSWARE	[{"column":"product_metafield_definition","relation":"equals","condition":"GLASSWARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+COOKWARE	[{"column":"product_metafield_definition","relation":"equals","condition":"COOKWARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+HOME DECOR	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME DECOR","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+NEW ARRIVALS	[{"column":"product_metafield_definition","relation":"equals","condition":"NEW ARRIVALS","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"NEW ARRIVALS","condition_object_id":248557076865}]	FALSE	
+ADHESIVE / GLUE	[{"column":"product_metafield_definition","relation":"equals","condition":"ADHESIVE / GLUE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+SHOE CARE	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865},{"column":"product_metafield_definition","relation":"equals","condition":"SHOE CARE","condition_object_id":248557044097}]	FALSE	
+PET CARE	[{"column":"product_metafield_definition","relation":"equals","condition":"PET CARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+VEHICLE CARE	[{"column":"product_metafield_definition","relation":"equals","condition":"VEHICLE CARE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+CLOCK	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865},{"column":"product_metafield_definition","relation":"equals","condition":"CLOCK","condition_object_id":248557044097}]	FALSE	
+DECORATIVE	[{"column":"product_metafield_definition","relation":"equals","condition":"DECORATIVE","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+ELECTRICAL	[{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865},{"column":"product_metafield_definition","relation":"equals","condition":"ELECTRICAL","condition_object_id":248557044097}]	FALSE	
+HALLOWEEN	[{"column":"product_metafield_definition","relation":"equals","condition":"HALLOWEEN","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"SEASONAL","condition_object_id":248557076865}]	FALSE	
+PLUMBING	[{"column":"product_metafield_definition","relation":"equals","condition":"PLUMBING","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+SECURITY	[{"column":"product_metafield_definition","relation":"equals","condition":"SECURITY","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+STARPACK	[{"column":"product_metafield_definition","relation":"equals","condition":"STARPACK","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+EASTER	[{"column":"product_metafield_definition","relation":"equals","condition":"EASTER","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"SEASONAL","condition_object_id":248557076865}]	FALSE	
+TAPES	[{"column":"product_metafield_definition","relation":"equals","condition":"TAPES","condition_object_id":248557044097},{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+CHRISTMAS	[{"column":"product_metafield_definition","relation":"equals","condition":"CHRISTMAS","condition_object_id":248557044097},{"column":"title","relation":"contains","condition":"CHRISTMAS"}]	TRUE	
+CLEANING AND LAUNDRY PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"CLEANING AND LAUNDRY PRODUCTS","condition_object_id":248557076865}]	FALSE	
+HEALTH BEAUTY CARE PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH BEAUTY CARE PRODUCTS","condition_object_id":248557076865}]	FALSE	
+TOYS OUTDOOR / SUMMER TOYS	[{"column":"product_metafield_definition","relation":"equals","condition":"TOYS OUTDOOR / SUMMER TOYS","condition_object_id":248557044097}]	FALSE	<p>Shop the best UK wholesaler for outdoor and summer toys. Bulk buy water toys, inflatable playsets, sand toys, and outdoor games at wholesale prices. Perfect for retailers, event planners, and gift shops looking for top-quality toys to keep kids active and entertained all summer long.</p>
+SMOKING ACC. & BATTERIES	[{"column":"product_metafield_definition","relation":"equals","condition":"SMOKING ACC. & BATTERIES","condition_object_id":248557076865}]	FALSE	
+STATIONERY / ART & CRAFT	[{"column":"product_metafield_definition","relation":"equals","condition":"STATIONERY / ART & CRAFT","condition_object_id":248557076865}]	FALSE	<p>Unleash your creativity with our <strong data-start="183" data-end="213">Stationery and Art &amp; Craft</strong> collection! From high-quality <strong data-start="244" data-end="286">pens, notebooks, and office essentials</strong> to <strong data-start="290" data-end="346">paints, brushes, DIY craft kits, and school supplies</strong>, we have everything you need to stay organized and inspired. Whether you're a student, professional, or artist, find the perfect tools to bring your ideas to life. Shop now for top brands, <strong data-start="536" data-end="582">affordable prices, and creative essentials</strong> that make every project fun and productive!</p>
+POST OFFICE SUPPLY NECCESITIES	[{"column":"product_metafield_definition","relation":"equals","condition":"POST SUPPLY NECCESITIES","condition_object_id":248557044097}]	FALSE	<p>Shop affordable &amp; cheap post office supplies from the UKâ€™s best wholesaler. Find stamps, envelopes, packaging, and more at bulk prices. Buy now &amp; save!</p>
+COMPUTER ACCESORIES	[{"column":"product_metafield_definition","relation":"equals","condition":"COMPUTER ACCESORIES","condition_object_id":248557044097}]	FALSE	<p>Looking for wholesale computer accessories? Get the best deals on keyboards, headphones, USB cables &amp; more from the UKâ€™s top suppliers. Buy in bulk &amp; save!</p>
+JOKE PRANK GAG TOYS	[{"column":"product_metafield_definition","relation":"equals","condition":"JOKE PRANK GAG TOYS","condition_object_id":248557044097}]	FALSE	<p>Shop the best UK wholesaler for joke, prank, and gag toys. Bulk buy hilarious novelty toys, classic pranks, and fun tricks at wholesale prices. Perfect for retailers, party shops, and gift stores looking for top-selling joke toys.</p>
+BATHROOM ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+KIDS ENTERTAINMENT	[{"column":"product_metafield_definition","relation":"equals","condition":"KIDS ENTERTAINMENT","condition_object_id":248557044097}]	FALSE	"<div class=""flex max-w-full flex-col flex-grow"">
+<div data-message-author-role=""assistant"" data-message-id=""36fc6273-a1fe-40c6-afe5-dcc26366b223"" dir=""auto"" class=""min-h-8 text-message relative flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"" data-message-model-slug=""gpt-4o"">
+<div class=""flex w-full flex-col gap-1 empty:hidden first:pt-[3px]"">
+<div class=""markdown prose w-full break-words dark:prose-invert light"">
+<p data-start=""92"" data-end=""340"" data-is-last-node="""" data-is-only-node="""">Shop the best UK wholesaler for kids' entertainment toys. Bulk buy fun, engaging, and educational toys at wholesale prices. Perfect for retailers, event planners, and gift shops looking for top-selling kids' entertainment products.</p>
+</div>
+</div>
+</div>
+</div>"
+OFFICE NECCESITIES	[{"column":"product_metafield_definition","relation":"equals","condition":"OFFICE NECCESITIES","condition_object_id":248557044097}]	FALSE	<p>Shop affordable &amp; cheap office necessities from the UKâ€™s best wholesaler. Find pens, paper, notebooks, staplers &amp; more at bulk prices. Buy now &amp; save!</p>
+SCHOOL NECCESITIES	[{"column":"product_metafield_definition","relation":"equals","condition":"SCHOOL NECCESITIES","condition_object_id":248557044097}]	FALSE	<p>Looking for wholesale school supplies? Get the best deals on stationery, backpacks, and classroom essentials from the UKâ€™s top suppliers. Buy in bulk &amp; save!</p>
+KITCHEN ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+ACTIVITY BOOKS	[{"column":"product_metafield_definition","relation":"equals","condition":"ACTIVITY BOOKS","condition_object_id":248557044097}]	FALSE	"<p data-start=""183"" data-end=""436"">Explore our <strong data-start=""195"" data-end=""224"">Activity Books Collection</strong> and enjoy hours of fun, creativity, and learning! From <strong data-start=""280"" data-end=""338"">puzzle books, coloring books, mazes, and word searches</strong> to brain teasers and educational activity books, we have something for kids, teens, and adults.</p>
+<p data-start=""438"" data-end=""710"">Our activity books are perfect for <strong data-start=""473"" data-end=""502"">screen-free entertainment</strong>, <strong data-start=""504"" data-end=""514"">travel</strong>, <strong data-start=""516"" data-end=""538"">classroom learning</strong>, or simply <strong data-start=""550"" data-end=""570"">relaxing at home</strong>. Whether you're looking to <strong data-start=""598"" data-end=""630"">boost problem-solving skills</strong>, <strong data-start=""632"" data-end=""654"">enhance creativity</strong>, or just have fun, you'll find the perfect book here!</p>
+<p data-start=""712"" data-end=""835""><strong data-start=""712"" data-end=""724"">Shop now</strong> and discover the best <strong data-start=""747"" data-end=""778"">activity books for all ages</strong>, ideal for gifts, learning, and endless entertainment!</p>"
+CHARACTER TOYS	[{"column":"product_metafield_definition","relation":"equals","condition":"CHARACTER TOYS","condition_object_id":248557044097}]	FALSE	<p>Shop the best UK wholesaler for character toys. Bulk buy popular kids' toys featuring beloved characters at wholesale prices. Perfect for retailers, gift shops, and businesses looking for top-selling licensed and themed toys.</p>
+HOME ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":248557076865}]	FALSE	
+JIGSAW PUZZLES	[{"column":"product_metafield_definition","relation":"equals","condition":"JIGSAW PUZZLES","condition_object_id":248557044097}]	FALSE	<p>Shop high-quality jigsaw puzzles from the best UK wholesaler. Bulk buy kids' and adult puzzles, educational and themed designs at wholesale prices. Perfect for retailers, gift shops, and schools looking for top-selling puzzle collections.</p>
+PARTY SUPPLIES	[{"column":"product_metafield_definition","relation":"equals","condition":"PARTY SUPPLIES","condition_object_id":248557044097}]	FALSE	<p>Shop wholesale party supplies from a leading UK wholesaler. Bulk buy party decorations, tableware &amp; accessories at great prices â€“ perfect for retailers &amp; event planners. Fast UK delivery!</p>
+GIFTS / PARTY	[{"column":"product_metafield_definition","relation":"equals","condition":"GIFTS / PARTY","condition_object_id":248557076865}]	FALSE	<p>Shop wholesale party supplies &amp; gifts from a leading UK wholesaler. Buy in bulk at unbeatable prices â€“ perfect for retailers, event planners &amp; party shops. Fast UK delivery!</p>
+NEW ARRIVALS	[{"column":"product_metafield_definition","relation":"equals","condition":"NEW ARRIVALS","condition_object_id":248557076865}]	FALSE	
+PRETEND PLAY	[{"column":"product_metafield_definition","relation":"equals","condition":"PRETEND PLAY","condition_object_id":248557044097}]	FALSE	<p>Shop the best UK wholesaler for pretend play toys. Bulk buy imaginative playsets, role-play costumes, and interactive toys at wholesale prices. Perfect for retailers, schools, and gift shops looking for high-quality pretend play toys to spark creativity in kids.</p>
+TOY VEHICLES	[{"column":"product_metafield_definition","relation":"equals","condition":"TOY VEHICLES","condition_object_id":248557044097}]	FALSE	"<div class=""flex max-w-full flex-col flex-grow"">
+<div data-message-author-role=""assistant"" data-message-id=""acf066bb-5470-4319-93d3-f0ff42809cb9"" dir=""auto"" class=""min-h-8 text-message relative flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"" data-message-model-slug=""gpt-4o-mini"">
+<div class=""flex w-full flex-col gap-1 empty:hidden first:pt-[3px]"">
+<div class=""markdown prose w-full break-words dark:prose-invert light"">
+<p data-start=""85"" data-end=""346"" data-is-last-node="""" data-is-only-node="""">Shop the best UK wholesaler for toy vehicles. Bulk buy cars, trucks, construction vehicles, and playsets at wholesale prices. Perfect for retailers, gift shops, and stores looking for top-selling, high-quality toy vehicles for kids of all ages.</p>
+</div>
+</div>
+</div>
+</div>"
+GIFT BOXES	[{"column":"product_metafield_definition","relation":"equals","condition":"GIFT BOXES","condition_object_id":248557044097}]	FALSE	<p>Shop wholesale gift boxes from a trusted UK wholesaler. Bulk buy luxury, cardboard &amp; decorative gift packaging â€“ perfect for retailers &amp; businesses. Fast UK delivery!</p>
+GIFT WRAPS	[{"column":"product_metafield_definition","relation":"equals","condition":"GIFT WRAPS","condition_object_id":248557044097}]	FALSE	<p>Shop wholesale gift wrap, wrapping paper &amp; gift packaging from a leading UK wholesaler. Bulk buy at great prices â€“ perfect for retailers &amp; businesses. Fast UK delivery!</p>
+PARTY TOYS	[{"column":"product_metafield_definition","relation":"equals","condition":"PARTY TOYS","condition_object_id":248557044097}]	FALSE	"<div class=""flex max-w-full flex-col flex-grow"">
+<div data-message-author-role=""assistant"" data-message-id=""f9f8a565-41c7-4263-82a2-965047c9fb50"" dir=""auto"" class=""min-h-8 text-message relative flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"" data-message-model-slug=""gpt-4o-mini"">
+<div class=""flex w-full flex-col gap-1 empty:hidden first:pt-[3px]"">
+<div class=""markdown prose w-full break-words dark:prose-invert light"">
+<p data-start=""84"" data-end=""341"" data-is-last-node="""" data-is-only-node="""">Shop the best UK wholesaler for party toys. Bulk buy fun party favors, games, and novelty items at wholesale prices. Perfect for event planners, retailers, and party stores looking for top-selling toys and entertainment for any celebration.</p>
+</div>
+</div>
+</div>
+</div>"
+STATIONERY	[{"column":"product_metafield_definition","relation":"equals","condition":"STATIONERY","condition_object_id":248557044097}]	FALSE	<p>Shop affordable &amp; cheap stationery from the UKâ€™s best wholesaler. Find pens, notebooks, paper, folders &amp; more at bulk prices. Buy now &amp; save!</p>
+CALENDER	[{"column":"product_metafield_definition","relation":"equals","condition":"CALENDER","condition_object_id":248557044097}]	FALSE	
+CATERING	[{"column":"product_metafield_definition","relation":"equals","condition":"CATERING","condition_object_id":248557044097}]	FALSE	<p>Discover top-quality wholesale catering supplies from a trusted UK wholesaler. Bulk buy catering essentials at great prices â€“ ideal for restaurants, cafes &amp; events. Fast UK delivery!</p>
+HARDWARE	[{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":248557076865}]	FALSE	
+SEASONAL	[{"column":"product_metafield_definition","relation":"equals","condition":"SEASONAL","condition_object_id":248557076865}]	FALSE	
+SOUVENIR	[{"column":"product_metafield_definition","relation":"equals","condition":"SOUVENIR","condition_object_id":248557044097}]	FALSE	<p>Shop wholesale souvenirs from a trusted UK wholesaler. Bulk buy UK-themed gifts, memorabilia &amp; keepsakes â€“ perfect for retailers &amp; tourist shops. Fast UK delivery!</p>
+SPORTS	[{"column":"product_metafield_definition","relation":"equals","condition":"SPORTS","condition_object_id":248557044097}]	FALSE	"<div class=""flex max-w-full flex-col flex-grow"">
+<div data-message-author-role=""assistant"" data-message-id=""c47b3d79-8098-4403-b555-8a3531da7261"" dir=""auto"" class=""min-h-8 text-message relative flex w-full flex-col items-end gap-2 whitespace-normal break-words text-start [.text-message+&amp;]:mt-5"" data-message-model-slug=""gpt-4o-mini"">
+<div class=""flex w-full flex-col gap-1 empty:hidden first:pt-[3px]"">
+<div class=""markdown prose w-full break-words dark:prose-invert light"">
+<p data-start=""87"" data-end=""347"" data-is-last-node="""" data-is-only-node="""">Shop the best UK wholesaler for sports toys. Bulk buy outdoor toys, active play equipment, and sports sets at wholesale prices. Perfect for retailers, schools, and sports stores looking for top-quality toys to keep kids active and entertained.</p>
+</div>
+</div>
+</div>
+</div>"
+DIARY	[{"column":"product_metafield_definition","relation":"equals","condition":"DIARY","condition_object_id":248557044097}]	FALSE	<p>Shop affordable &amp; cheap dairy products from the UKâ€™s best wholesaler. Find fresh milk, cheese, butter &amp; more at bulk prices. Buy now &amp; save!</p>
+GAMES	[{"column":"product_metafield_definition","relation":"equals","condition":"GAMES","condition_object_id":248557044097}]	FALSE	<p>Shop the best UK wholesaler for games, including board games, card games, and educational fun for kids. Buy in bulk at wholesale pricesâ€”perfect for retailers, schools, and gift shops looking for top-selling family and kids' games.</p>
+GIFTS	[{"column":"product_metafield_definition","relation":"equals","condition":"GIFTS","condition_object_id":248557044097}]	FALSE	<p>Discover a wide range of wholesale gifts from a trusted UK wholesaler. Bulk buy gift items, sets &amp; novelty gifts at great prices â€“ perfect for retailers &amp; businesses. Fast UK delivery!</p>
+Fans	[{"column":"product_metafield_definition","relation":"equals","condition":"Fans","condition_object_id":248557044097}]	FALSE	<p>Stay cool and comfortable with our range of powerful fans, available in electric and battery-powered options. From compact desk fans for your workspace to adjustable pedestal fans for larger rooms, weâ€™ve got the perfect solution for every setting. Designed for convenience and performance, our fans come in various sizes and styles to suit your needsâ€”whether you're at home, in the office, or on the go.</p>
+Toys	[{"column":"product_metafield_definition","relation":"equals","condition":"TOYS","condition_object_id":248557076865}]	FALSE	<p>Discover the best UK wholesaler for eco-friendly toys. Shop sustainable, non-toxic, and ethically sourced toys in bulk at wholesale prices. Perfect for retailers, schools, and businesses looking for top-quality, planet-friendly toys.</p>
+U STATIONERY	[{"column":"vendor","relation":"equals","condition":"U COPY"},{"column":"vendor","relation":"equals","condition":"U CORRECT"},{"column":"vendor","relation":"equals","condition":"U FILE"},{"column":"vendor","relation":"equals","condition":"U LEARN"},{"column":"vendor","relation":"equals","condition":"U MARK"},{"column":"vendor","relation":"equals","condition":"U RECEIVE"},{"column":"vendor","relation":"equals","condition":"U SCIENTIFIC"},{"column":"vendor","relation":"equals","condition":"U SEND"},{"column":"vendor","relation":"equals","condition":"U STAPLE"},{"column":"vendor","relation":"equals","condition":"U WRITE"}]	TRUE	
+JAUNTY PARTWARE	[{"column":"vendor","relation":"equals","condition":"JAUNTY PARTWARE"},{"column":"vendor","relation":"equals","condition":"JAUNTY PARTYWARE"},{"column":"vendor","relation":"equals","condition":"JAUNTY TIME"}]	TRUE	
+THE CHRISTMAS WORKSHOP	[{"column":"vendor","relation":"equals","condition":"THE CHRISTMAS WORKSHOP"}]	FALSE	
+ESSENTIAL HOUSEWARES	[{"column":"vendor","relation":"equals","condition":"ESSENTIAL HOUSEWARES"}]	FALSE	
+FANTASTIC FLEXIBLE	[{"column":"vendor","relation":"equals","condition":"FANTASTIC FLEXIBLE"}]	FALSE	
+CALIFORNIA SCENTS	[{"column":"vendor","relation":"equals","condition":"CALIFORNIA SCENTS"}]	FALSE	
+FOREVER BEAUTIFUL	[{"column":"vendor","relation":"equals","condition":"FOREVER BEAUTIFUL"}]	FALSE	
+LESSER AND PAVEY	[{"column":"vendor","relation":"equals","condition":"LESSER AND PAVEY"}]	FALSE	
+ENRICO SHONALLI	[{"column":"vendor","relation":"equals","condition":"ENRICO SHONALLI"}]	FALSE	
+HOME COLLECTION	[{"column":"vendor","relation":"equals","condition":"HOME COLLECTION"}]	FALSE	
+JUST STATIONERY	[{"column":"vendor","relation":"equals","condition":"JUST STATIONERY"}]	FALSE	
+REDWOOD LEISURE	[{"column":"vendor","relation":"equals","condition":"REDWOOD LEISURE"}]	FALSE	
+TRADESMAN TRADE	[{"column":"vendor","relation":"equals","condition":"TRADESMAN TRADE"}]	FALSE	
+COMBAT MISSION	[{"column":"vendor","relation":"equals","condition":"COMBAT MISSION"}]	FALSE	
+LOVE YOUR WOOD	[{"column":"vendor","relation":"equals","condition":"LOVE YOUR WOOD"}]	FALSE	
+LUMAR AROMATIC	[{"column":"vendor","relation":"equals","condition":"LUMAR AROMATIC"}]	FALSE	
+MUNCH & CRUNCH	[{"column":"vendor","relation":"equals","condition":"MUNCH & CRUNCH"}]	FALSE	
+NATURALLY GONE	[{"column":"vendor","relation":"equals","condition":"NATURALLY GONE"}]	FALSE	
+QUEEN OF CAKES	[{"column":"vendor","relation":"equals","condition":"QUEEN OF CAKES"}]	FALSE	
+STOP THAT LEAK	[{"column":"vendor","relation":"equals","condition":"STOP THAT LEAK"}]	FALSE	
+WINDSOR PASTRY	[{"column":"vendor","relation":"equals","condition":"WINDSOR PASTRY"}]	FALSE	
+CHILTERN WOVE	[{"column":"vendor","relation":"equals","condition":"CHILTERN WOVE"}]	FALSE	
+FINE ELEMENTS	[{"column":"vendor","relation":"equals","condition":"FINE ELEMENTS"}]	FALSE	
+ROYAL MARKETS	[{"column":"vendor","relation":"equals","condition":"ROYAL MARKETS"}]	FALSE	
+SONIC DIGITAL	[{"column":"vendor","relation":"equals","condition":"SONIC DIGITAL"}]	FALSE	
+TIME TO PARTY	[{"column":"vendor","relation":"equals","condition":"TIME TO PARTY"}]	FALSE	
+DISCONTINUED	[{"column":"vendor","relation":"equals","condition":"DISCONTINUED"}]	FALSE	
+DRY CLEANERS	[{"column":"vendor","relation":"equals","condition":"DRY CLEANERS"}]	FALSE	
+ELBOW GREASE	[{"column":"vendor","relation":"equals","condition":"ELBOW GREASE"}]	FALSE	
+FABRIC MAGIC	[{"column":"vendor","relation":"equals","condition":"FABRIC MAGIC"}]	FALSE	
+JOKES & GAGS	[{"column":"vendor","relation":"equals","condition":"JOKES & GAGS"}]	FALSE	
+LITTLE TREES	[{"column":"vendor","relation":"equals","condition":"LITTLE TREES"}]	FALSE	
+ROYAL MARKET	[{"column":"vendor","relation":"equals","condition":"ROYAL MARKET"}]	FALSE	
+TALLON CHALK	[{"column":"vendor","relation":"equals","condition":"TALLON CHALK"}]	FALSE	
+THE ORIGINAL	[{"column":"vendor","relation":"equals","condition":"THE ORIGINAL"}]	FALSE	
+TREAT & EASE	[{"column":"vendor","relation":"equals","condition":"TREAT & EASE"}]	FALSE	
+ALL SEASONS	[{"column":"vendor","relation":"equals","condition":"ALL SEASONS"}]	FALSE	
+BABY PIPKIN	[{"column":"vendor","relation":"equals","condition":"BABY PIPKIN"}]	FALSE	
+BUBBLE KIDZ	[{"column":"vendor","relation":"equals","condition":"BUBBLE KIDZ"}]	FALSE	
+COTTON TREE	[{"column":"vendor","relation":"equals","condition":"COTTON TREE"}]	FALSE	
+DR BECKMANN	[{"column":"vendor","relation":"equals","condition":"DR BECKMANN"}]	FALSE	
+FIRST STEPS	[{"column":"vendor","relation":"equals","condition":"FIRST STEPS"}]	FALSE	
+FRSH SCENTS	[{"column":"vendor","relation":"equals","condition":"FRSH SCENTS"}]	FALSE	
+GREEN BLADE	[{"column":"vendor","relation":"equals","condition":"GREEN BLADE"}]	FALSE	
+KIDS CREATE	[{"column":"vendor","relation":"equals","condition":"KIDS CREATE"}]	FALSE	
+MASTERPLAST	[{"column":"vendor","relation":"equals","condition":"MASTERPLAST"}]	FALSE	
+PEST SHEILD	[{"column":"vendor","relation":"equals","condition":"PEST SHEILD"}]	FALSE	
+PEST SHIELD	[{"column":"vendor","relation":"equals","condition":"PEST SHIELD"}]	FALSE	
+QUESTAPLAST	[{"column":"vendor","relation":"equals","condition":"QUESTAPLAST"}]	FALSE	
+URBAN KICKS	[{"column":"vendor","relation":"equals","condition":"URBAN KICKS"}]	FALSE	
+BLUKY SOFT	[{"column":"vendor","relation":"equals","condition":"BLUKY SOFT"}]	FALSE	
+BRYANT MAY	[{"column":"vendor","relation":"equals","condition":"BRYANT MAY"}]	FALSE	
+BULL BRAND	[{"column":"vendor","relation":"equals","condition":"BULL BRAND"}]	FALSE	
+CASTLEVIEW	[{"column":"vendor","relation":"equals","condition":"CASTLEVIEW"}]	FALSE	
+CHATSWORTH	[{"column":"vendor","relation":"equals","condition":"CHATSWORTH"}]	FALSE	
+COMPUCLEAN	[{"column":"vendor","relation":"equals","condition":"COMPUCLEAN"}]	FALSE	
+DE-SOLV-IT	[{"column":"vendor","relation":"equals","condition":"DE-SOLV-IT"}]	FALSE	
+FACE FACTS	[{"column":"vendor","relation":"equals","condition":"FACE FACTS"}]	FALSE	
+FRANK SHAW	[{"column":"vendor","relation":"equals","condition":"FRANK SHAW"}]	FALSE	
+GIFT MAKER	[{"column":"vendor","relation":"equals","condition":"GIFT MAKER"}]	FALSE	
+GLOBE MILL	[{"column":"vendor","relation":"equals","condition":"GLOBE MILL"}]	FALSE	
+HOBBY LIFE	[{"column":"vendor","relation":"equals","condition":"HOBBY LIFE"}]	FALSE	
+KANDY TOYS	[{"column":"vendor","relation":"equals","condition":"KANDY TOYS"}]	FALSE	
+KINGFISHER	[{"column":"vendor","relation":"equals","condition":"KINGFISHER"}]	FALSE	
+NORTH POLE	[{"column":"vendor","relation":"equals","condition":"NORTH POLE"}]	FALSE	
+O'KEEFFE'S	[{"column":"vendor","relation":"equals","condition":"O'KEEFFE'S"}]	FALSE	
+ON BALANCE	[{"column":"vendor","relation":"equals","condition":"ON BALANCE"}]	FALSE	
+OVEN BRITE	[{"column":"vendor","relation":"equals","condition":"OVEN BRITE"}]	FALSE	
+PURE BREED	[{"column":"vendor","relation":"equals","condition":"PURE BREED"}]	FALSE	
+SEWING BOX	[{"column":"vendor","relation":"equals","condition":"SEWING BOX"}]	FALSE	
+UTLTRATAPE	[{"column":"vendor","relation":"equals","condition":"UTLTRATAPE"}]	FALSE	
+VILESELINE	[{"column":"vendor","relation":"equals","condition":"VILESELINE"}]	FALSE	
+ALLIGATOR	[{"column":"vendor","relation":"equals","condition":"ALLIGATOR"}]	FALSE	
+ARGAN OIL	[{"column":"vendor","relation":"equals","condition":"ARGAN OIL"}]	FALSE	
+BIN BRITE	[{"column":"vendor","relation":"equals","condition":"BIN BRITE"}]	FALSE	
+BLACKSPUR	[{"column":"vendor","relation":"equals","condition":"BLACKSPUR"}]	FALSE	
+CAR PRIDE	[{"column":"vendor","relation":"equals","condition":"CAR PRIDE"}]	FALSE	
+CHALLENGE	[{"column":"vendor","relation":"equals","condition":"CHALLENGE"}]	FALSE	
+EUROSONIC	[{"column":"vendor","relation":"equals","condition":"EUROSONIC"}]	FALSE	
+GIFTMAKER	[{"column":"vendor","relation":"equals","condition":"GIFTMAKER"}]	FALSE	
+GLAMORIZE	[{"column":"vendor","relation":"equals","condition":"GLAMORIZE"}]	FALSE	
+HENBRANDT	[{"column":"vendor","relation":"equals","condition":"HENBRANDT"}]	FALSE	
+HOT SHOTS	[{"column":"vendor","relation":"equals","condition":"HOT SHOTS"}]	FALSE	
+HUGGABLES	[{"column":"vendor","relation":"equals","condition":"HUGGABLES"}]	FALSE	
+KIDS PLAY	[{"column":"vendor","relation":"equals","condition":"KIDS PLAY"}]	FALSE	
+PAN AROMA	[{"column":"vendor","relation":"equals","condition":"PAN AROMA"}]	FALSE	
+PANASONIC	[{"column":"vendor","relation":"equals","condition":"PANASONIC"}]	FALSE	
+PEPPA PIG	[{"column":"vendor","relation":"equals","condition":"PEPPA PIG"}]	FALSE	
+PETS PLAY	[{"column":"vendor","relation":"equals","condition":"PETS PLAY"}]	FALSE	
+PLAYWRITE	[{"column":"vendor","relation":"equals","condition":"PLAYWRITE"}]	FALSE	
+PUKKA PAD	[{"column":"vendor","relation":"equals","condition":"PUKKA PAD"}]	FALSE	
+SEALAPACK	[{"column":"vendor","relation":"equals","condition":"SEALAPACK"}]	FALSE	
+SELLOTAPE	[{"column":"vendor","relation":"equals","condition":"SELLOTAPE"}]	FALSE	
+TEAMSTERZ	[{"column":"vendor","relation":"equals","condition":"TEAMSTERZ"}]	FALSE	
+TRAFALGAR	[{"column":"vendor","relation":"equals","condition":"TRAFALGAR"}]	FALSE	
+ACKERMAN	[{"column":"vendor","relation":"equals","condition":"ACKERMAN"}]	FALSE	
+ASTONISH	[{"column":"vendor","relation":"equals","condition":"ASTONISH"}]	FALSE	
+CAROLINE	[{"column":"vendor","relation":"equals","condition":"CAROLINE"}]	FALSE	
+CHEF AID	[{"column":"vendor","relation":"equals","condition":"CHEF AID"}]	FALSE	
+DURACELL	[{"column":"vendor","relation":"equals","condition":"DURACELL"}]	FALSE	
+ELLIOTTS	[{"column":"vendor","relation":"equals","condition":"ELLIOTTS"}]	FALSE	
+EUROWRAP	[{"column":"vendor","relation":"equals","condition":"EUROWRAP"}]	FALSE	
+EVO-STIK	[{"column":"vendor","relation":"equals","condition":"EVO-STIK"}]	FALSE	
+FANTASIA	[{"column":"vendor","relation":"equals","condition":"FANTASIA"}]	FALSE	
+FAST PAK	[{"column":"vendor","relation":"equals","condition":"FAST PAK"}]	FALSE	
+GRUNWERG	[{"column":"vendor","relation":"equals","condition":"GRUNWERG"}]	FALSE	
+HOMEMAID	[{"column":"vendor","relation":"equals","condition":"HOMEMAID"}]	FALSE	
+HOZELOCK	[{"column":"vendor","relation":"equals","condition":"HOZELOCK"}]	FALSE	
+KINGAVON	[{"column":"vendor","relation":"equals","condition":"KINGAVON"}]	FALSE	
+MARTELLO	[{"column":"vendor","relation":"equals","condition":"MARTELLO"}]	FALSE	
+PARTYPOD	[{"column":"vendor","relation":"equals","condition":"PARTYPOD"}]	FALSE	
+PRO USER	[{"column":"vendor","relation":"equals","condition":"PRO USER"}]	FALSE	
+SOLSTUDS	[{"column":"vendor","relation":"equals","condition":"SOLSTUDS"}]	FALSE	
+SQUEEZOS	[{"column":"vendor","relation":"equals","condition":"SQUEEZOS"}]	FALSE	
+SQUIGGLE	[{"column":"vendor","relation":"equals","condition":"SQUIGGLE"}]	FALSE	
+STARPACK	[{"column":"vendor","relation":"equals","condition":"STARPACK"}]	FALSE	
+TEA TREE	[{"column":"vendor","relation":"equals","condition":"TEA TREE"}]	FALSE	
+TOYRIFIC	[{"column":"vendor","relation":"equals","condition":"TOYRIFIC"}]	FALSE	
+TUFFGRIP	[{"column":"vendor","relation":"equals","condition":"TUFFGRIP"}]	FALSE	
+WUNDAWEB	[{"column":"vendor","relation":"equals","condition":"WUNDAWEB"}]	FALSE	
+ADASTRA	[{"column":"vendor","relation":"equals","condition":"ADASTRA"}]	FALSE	
+AIRPURE	[{"column":"vendor","relation":"equals","condition":"AIRPURE"}]	FALSE	
+ALADINO	[{"column":"vendor","relation":"equals","condition":"ALADINO"}]	FALSE	
+AV:LINK	[{"column":"vendor","relation":"equals","condition":"AV:LINK"}]	FALSE	
+BAYONET	[{"column":"vendor","relation":"equals","condition":"BAYONET"}]	FALSE	
+BENROSS	[{"column":"vendor","relation":"equals","condition":"BENROSS"}]	FALSE	
+BILABAO	[{"column":"vendor","relation":"equals","condition":"BILABAO"}]	FALSE	
+BOLSIUS	[{"column":"vendor","relation":"equals","condition":"BOLSIUS"}]	FALSE	
+CLIPPER	[{"column":"vendor","relation":"equals","condition":"CLIPPER"}]	FALSE	
+COLGATE	[{"column":"vendor","relation":"equals","condition":"COLGATE"}]	FALSE	
+COMMAND	[{"column":"vendor","relation":"equals","condition":"COMMAND"}]	FALSE	
+E-CLOTH	[{"column":"vendor","relation":"equals","condition":"E-CLOTH"}]	FALSE	
+ECO 360	[{"column":"vendor","relation":"equals","condition":"ECO 360"}]	FALSE	
+ECO BAG	[{"column":"vendor","relation":"equals","condition":"ECO BAG"}]	FALSE	
+ECOZONE	[{"column":"vendor","relation":"equals","condition":"ECOZONE"}]	FALSE	
+ELYSIUM	[{"column":"vendor","relation":"equals","condition":"ELYSIUM"}]	FALSE	
+ENLIVEN	[{"column":"vendor","relation":"equals","condition":"ENLIVEN"}]	FALSE	
+ESCENTI	[{"column":"vendor","relation":"equals","condition":"ESCENTI"}]	FALSE	
+FREEDOM	[{"column":"vendor","relation":"equals","condition":"FREEDOM"}]	FALSE	
+GORILLA	[{"column":"vendor","relation":"equals","condition":"GORILLA"}]	FALSE	
+HAGERTY	[{"column":"vendor","relation":"equals","condition":"HAGERTY"}]	FALSE	
+JB WELD	[{"column":"vendor","relation":"equals","condition":"JB WELD"}]	FALSE	
+KEEP IT	[{"column":"vendor","relation":"equals","condition":"KEEP IT"}]	FALSE	
+KENWOOD	[{"column":"vendor","relation":"equals","condition":"KENWOOD"}]	FALSE	
+KINGDOM	[{"column":"vendor","relation":"equals","condition":"KINGDOM"}]	FALSE	
+KORBOND	[{"column":"vendor","relation":"equals","condition":"KORBOND"}]	FALSE	
+MELITTA	[{"column":"vendor","relation":"equals","condition":"MELITTA"}]	FALSE	
+MERCURY	[{"column":"vendor","relation":"equals","condition":"MERCURY"}]	FALSE	
+MINIONS	[{"column":"vendor","relation":"equals","condition":"MINIONS"}]	FALSE	
+NEWPORT	[{"column":"vendor","relation":"equals","condition":"NEWPORT"}]	FALSE	
+PAPSTAR	[{"column":"vendor","relation":"equals","condition":"PAPSTAR"}]	FALSE	
+PHILIPS	[{"column":"vendor","relation":"equals","condition":"PHILIPS"}]	FALSE	
+PRICE'S	[{"column":"vendor","relation":"equals","condition":"PRICE'S"}]	FALSE	
+RAPESCO	[{"column":"vendor","relation":"equals","condition":"RAPESCO"}]	FALSE	
+SHATCHI	[{"column":"vendor","relation":"equals","condition":"SHATCHI"}]	FALSE	
+Sistema	[{"column":"vendor","relation":"equals","condition":"SISTEMA"}]	FALSE	
+X HOOKS	[{"column":"vendor","relation":"equals","condition":"X HOOKS"}]	FALSE	
+ACCTIM	[{"column":"vendor","relation":"equals","condition":"ACCTIM"}]	FALSE	
+AMTECH	[{"column":"vendor","relation":"equals","condition":"AMTECH"}]	FALSE	
+APOLLO	[{"column":"vendor","relation":"equals","condition":"APOLLO"}]	FALSE	
+ARTBOX	[{"column":"vendor","relation":"equals","condition":"ARTBOX"}]	FALSE	
+ASHLEY	[{"column":"vendor","relation":"equals","condition":"ASHLEY"}]	FALSE	
+BALTUS	[{"column":"vendor","relation":"equals","condition":"BALTUS"}]	FALSE	
+BELLCO	[{"column":"vendor","relation":"equals","condition":"BELLCO"}]	FALSE	
+BLOOME	[{"column":"vendor","relation":"equals","condition":"BLOOME"}]	FALSE	
+BOSTIK	[{"column":"vendor","relation":"equals","condition":"BOSTIK"}]	FALSE	
+BREEZE	[{"column":"vendor","relation":"equals","condition":"BREEZE"}]	FALSE	
+COUNTY	[{"column":"vendor","relation":"equals","condition":"COUNTY"}]	FALSE	
+DAEWOO	[{"column":"vendor","relation":"equals","condition":"DAEWOO"}]	FALSE	
+DUZZIT	[{"column":"vendor","relation":"equals","condition":"DUZZIT"}]	FALSE	
+ELGATE	[{"column":"vendor","relation":"equals","condition":"ELGATE"}]	FALSE	
+HERALD	[{"column":"vendor","relation":"equals","condition":"HERALD"}]	FALSE	
+PRETTY	[{"column":"vendor","relation":"equals","condition":"PRETTY"}]	FALSE	
+RENATA	[{"column":"vendor","relation":"equals","condition":"RENATA"}]	FALSE	
+RONSON	[{"column":"vendor","relation":"equals","condition":"RONSON"}]	FALSE	
+RUSSEL	[{"column":"vendor","relation":"equals","condition":"RUSSEL"}]	FALSE	
+RYSONS	[{"column":"vendor","relation":"equals","condition":"RYSONS"}]	FALSE	
+SIMPLY	[{"column":"vendor","relation":"equals","condition":"SIMPLY"}]	FALSE	
+STATUS	[{"column":"vendor","relation":"equals","condition":"STATUS"}]	FALSE	
+SVITOL	[{"column":"vendor","relation":"equals","condition":"SVITOL"}]	FALSE	
+TALLON	[{"column":"vendor","relation":"equals","condition":"TALLON"}]	FALSE	
+TECHNO	[{"column":"vendor","relation":"equals","condition":"TECHNO"}]	FALSE	
+TIPPEX	[{"column":"vendor","relation":"equals","condition":"TIPPEX"}]	FALSE	
+UNIFIT	[{"column":"vendor","relation":"equals","condition":"UNIFIT"}]	FALSE	
+UNIQUE	[{"column":"vendor","relation":"equals","condition":"UNIQUE"}]	FALSE	
+VILENE	[{"column":"vendor","relation":"equals","condition":"VILENE"}]	FALSE	
+ZYLISS	[{"column":"vendor","relation":"equals","condition":"ZYLISS"}]	FALSE	
+ADORN	[{"column":"vendor","relation":"equals","condition":"ADORN"}]	FALSE	
+ANKER	[{"column":"vendor","relation":"equals","condition":"ANKER"}]	FALSE	
+BELLO	[{"column":"vendor","relation":"equals","condition":"BELLO"}]	FALSE	
+BLING	[{"column":"vendor","relation":"equals","condition":"BLING"}]	FALSE	
+BRITA	[{"column":"vendor","relation":"equals","condition":"BRITA"}]	FALSE	
+DUREX	[{"column":"vendor","relation":"equals","condition":"DUREX"}]	FALSE	
+DYLON	[{"column":"vendor","relation":"equals","condition":"DYLON"}]	FALSE	
+INTEX	[{"column":"vendor","relation":"equals","condition":"INTEX"}]	FALSE	
+MINKY	[{"column":"vendor","relation":"equals","condition":"MINKY"}]	FALSE	
+NUAGE	[{"column":"vendor","relation":"equals","condition":"NUAGE"}]	FALSE	
+OMEGA	[{"column":"vendor","relation":"equals","condition":"OMEGA"}]	FALSE	
+PIFCO	[{"column":"vendor","relation":"equals","condition":"PIFCO"}]	FALSE	
+PRIMA	[{"column":"vendor","relation":"equals","condition":"PRIMA"}]	FALSE	
+PRITT	[{"column":"vendor","relation":"equals","condition":"PRITT"}]	FALSE	
+RIZLA	[{"column":"vendor","relation":"equals","condition":"RIZLA"}]	FALSE	
+SATCO	[{"column":"vendor","relation":"equals","condition":"SATCO"}]	FALSE	
+SATYA	[{"column":"vendor","relation":"equals","condition":"SATYA"}]	FALSE	
+SORBO	[{"column":"vendor","relation":"equals","condition":"SORBO"}]	FALSE	
+SWIFT	[{"column":"vendor","relation":"equals","condition":"SWIFT"}]	FALSE	
+SWIRL	[{"column":"vendor","relation":"equals","condition":"SWIRL"}]	FALSE	
+TIDYZ	[{"column":"vendor","relation":"equals","condition":"TIDYZ"}]	FALSE	
+Tiger	[{"column":"vendor","relation":"equals","condition":"TIGER"}]	TRUE	
+VRIYA	[{"column":"vendor","relation":"equals","condition":"VRIYA"}]	FALSE	
+YELLO	[{"column":"vendor","relation":"equals","condition":"YELLO"}]	FALSE	
+ZIPPO	[{"column":"vendor","relation":"equals","condition":"ZIPPO"}]	FALSE	
+AVSL	[{"column":"vendor","relation":"equals","condition":"AVSL"}]	FALSE	
+BUZZ	[{"column":"vendor","relation":"equals","condition":"BUZZ"}]	FALSE	
+DOVE	[{"column":"vendor","relation":"equals","condition":"DOVE"}]	FALSE	
+HYDI	[{"column":"vendor","relation":"equals","condition":"HYDI"}]	FALSE	
+JUMP	[{"column":"vendor","relation":"equals","condition":"JUMP"}]	FALSE	
+MYCO	[{"column":"vendor","relation":"equals","condition":"MYCO"}]	FALSE	
+NALU	[{"column":"vendor","relation":"equals","condition":"NALU"}]	FALSE	
+OOTB	[{"column":"vendor","relation":"equals","condition":"OOTB"}]	FALSE	
+SURE	[{"column":"vendor","relation":"equals","condition":"SURE"}]	FALSE	
+SWAN	[{"column":"vendor","relation":"equals","condition":"SWAN"}]	FALSE	
+TALA	[{"column":"vendor","relation":"equals","condition":"TALA"}]	FALSE	
+XPEL	[{"column":"vendor","relation":"equals","condition":"XPEL"}]	FALSE	
+151	[{"column":"vendor","relation":"equals","condition":"151"}]	FALSE	
+BIC	[{"column":"vendor","relation":"equals","condition":"BIC"}]	FALSE	
+CR8	[{"column":"vendor","relation":"equals","condition":"CR8"}]	FALSE	
+DID	[{"column":"vendor","relation":"equals","condition":"DID"}]	FALSE	
+GSD	[{"column":"vendor","relation":"equals","condition":"GSD"}]	FALSE	
+HEM	[{"column":"vendor","relation":"equals","condition":"HEM"}]	FALSE	
+HTI	[{"column":"vendor","relation":"equals","condition":"HTI"}]	FALSE	
+HUL	[{"column":"vendor","relation":"equals","condition":"HUL"}]	FALSE	
+JES	[{"column":"vendor","relation":"equals","condition":"JES"}]	FALSE	
+JLS	[{"column":"vendor","relation":"equals","condition":"JLS"}]	FALSE	
+JVL	[{"column":"vendor","relation":"equals","condition":"JVL"}]	FALSE	
+OTL	[{"column":"vendor","relation":"equals","condition":"OTL"}]	FALSE	
+PMS	[{"column":"vendor","relation":"equals","condition":"PMS"}]	FALSE	
+PPS	[{"column":"vendor","relation":"equals","condition":"PPS"}]	FALSE	
+RAW	[{"column":"vendor","relation":"equals","condition":"RAW"}]	FALSE	
+SIL	[{"column":"vendor","relation":"equals","condition":"SIL"}]	FALSE	
+UHU	[{"column":"vendor","relation":"equals","condition":"UHU"}]	FALSE	
+XBC	[{"column":"vendor","relation":"equals","condition":"XBC"}]	FALSE	
+ZEP	[{"column":"vendor","relation":"equals","condition":"ZEP"}]	FALSE	
+DP	[{"column":"vendor","relation":"equals","condition":"DP"}]	FALSE	
+MY	[{"column":"vendor","relation":"equals","condition":"MY"}]	FALSE	

@@ -2,6 +2,7 @@ require("dotenv").config();
 
 module.exports = {
   SHOPIFY_STORE: process.env.SHOPIFY_STORE,
+  STORE_NAME: process.env.STORE_NAME,
   ACCESS_TOKEN: process.env.ACCESS_TOKEN,
   CSV_FILE_PATH: process.env.CSV_FILE_PATH,
   OUTPUT_CSV_PATH: process.env.OUTPUT_CSV_PATH,
@@ -10,4 +11,6 @@ module.exports = {
   DROPBOX_APP_KEY: process.env.DROPBOX_APP_KEY,
   DROPBOX_APP_SECRET: process.env.DROPBOX_APP_SECRET,
   DROPBOX_REFRESH_TOKEN: process.env.DROPBOX_REFRESH_TOKEN,
+  AUTH_USERNAME: process.env.AUTH_USERNAME,
+  AUTH_PASSWORD: process.env.AUTH_PASSWORD
 };

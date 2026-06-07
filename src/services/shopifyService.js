@@ -21,7 +21,52 @@ const handleRateLimit = async (error) => {
 
 // Fetch all Shopify products
 const fetchAllProducts = async () => {
-  let url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json?fields=id,title,variants,body_html&limit=250`;
+  let url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json?fields=id,title,variants,body_html,published_at,images&limit=250`;
+  const allProducts = [];
+
+  try {
+    while (url) {
+      const response = await axios.get(url, { headers });
+
+      console.log(`Fetched ${response.data.products.length} products from Shopify`);
+      const products = response.data.products;
+
+      for (const product of products) {
+        const imageCount = product.images ? product.images.length : 0;
+        product.variants.forEach((variant) => {
+          allProducts.push({
+            product_id: product.id,
+            variant_id: variant.id,
+            sku: variant.sku,
+            product_title: product.title,
+            product_price: variant.price,
+            product_description: product.body_html,
+            published_at: product.published_at,
+            image_count: imageCount
+          });
+        });
+      }
+
+      url =
+        response.headers.link &&
+          response.headers.link.includes('rel="next"')
+          ? response.headers.link
+            .split(",")
+            .find((link) => link.includes('rel="next"'))
+            .match(/<(.*?)>/)[1]
+          : null;
+    }
+
+    console.log(`Total variants fetched: ${allProducts.length}`);
+    return allProducts;
+  } catch (error) {
+    console.error("Error fetching product data:", error.response ? error.response.data : error.message);
+    throw new Error("Failed to fetch products");
+  }
+};
+
+const fetchAllProductsVendor = async () => {
+  let url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json?fields=id,vendor,variants&limit=250`;
   const allProducts = [];
 
   try {
@@ -37,9 +82,7 @@ const fetchAllProducts = async () => {
             product_id: product.id,
             variant_id: variant.id,
             sku: variant.sku,
-            product_title: product.title,
-            product_price: variant.price,
-            product_description: product.body_html,
+            vendor: product.vendor,
           });
         });
       }
@@ -177,7 +220,7 @@ const updateProductDetails = async (productId, newDescription, metaTitle) => {
     const updatedProductData = {
       product: {
         id: productId,
-        body_html: newDescription || existingProduct.body_html,
+        body_html: newDescription ?? existingProduct.body_html,
         handle: seoHandle
       }
     };
@@ -218,7 +261,6 @@ const updateProductDetails = async (productId, newDescription, metaTitle) => {
     return { error: error.message };
   }
 };
-
 
 //Fetch Product with metafield
 const fetchMetafields = async () => {
@@ -351,6 +393,41 @@ const updateVariantPrice = async (variantId, newPrice, compareAtPrice = null) =>
   }
 };
 
+const updatePublishedDate = async (productId, publishDate) => {
+  const SHOPIFY_URL = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products/${productId}.json`;
+
+  try {
+    const [day, month, year] = publishDate.split("/");
+    const shopifyDate = `${year}-${month}-${day}T00:00:00+00:00`;
+
+    const payload = {
+      product: {
+        id: productId,
+        published_at: shopifyDate
+      }
+    };
+
+    console.log("Updating publish date:", payload);
+
+    const response = await axios.put(SHOPIFY_URL, payload, { headers });
+
+    console.log(`Published date updated for Product ID: ${productId}`);
+
+    return response.data.product;
+
+  } catch (error) {
+
+    console.error(
+      `Error updating publish date for Product ID ${productId}:`,
+      error.response ? error.response.data : error.message
+    );
+
+    if (await handleRateLimit(error)) {
+      return updatePublishedDate(productId, publishDate);
+    }
+  }
+}; 
+
 const addProductToCollection = async (productId, collectionId) => {
   const url = `https://${SHOPIFY_STORE}/admin/api/2025-01/collects.json`;
 
@@ -418,7 +495,7 @@ const reorderSmartCollection = async (collectionId, productId, rank) => {
 }
 
 const fetchAllCollections = async () => {
-  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title,rules&limit=250`;
+  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title,rules,disjunctive,body_html&limit=250`;
   const allCollections = [];
   let url = urlBase;
 
@@ -438,6 +515,8 @@ const fetchAllCollections = async () => {
           title: collection.title,
           type: 'smart',
           rules: collection.rules,
+          disjunctive: collection.disjunctive,
+          body_html: collection.body_html,
         });
       });
 
@@ -498,10 +577,7 @@ const createSmartCollection = async (vendorName) => {
       url,
       { query, variables },
       {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Shopify-Access-Token": ACCESS_TOKEN,
-        },
+        headers
       }
     );
 
@@ -541,7 +617,321 @@ const updateProductVendor = async (productId, vendorName) => {
   }
 };
 
+// Create Smart cillection from JSON condition fwtch from rules
+const createSmartCollectionWithJSON = async (title, rules, disjunctive = false, description) => {
+  if (!title) throw new Error("Missing collection title.");
+  if (!Array.isArray(rules)) throw new Error("Rules must be an array.");
+
+  const url = `https://${process.env.SHOPIFY_STORE}/admin/api/2024-01/smart_collections.json`;
+
+  const payload = {
+    smart_collection: {
+      title,
+      rules,
+      disjunctive,
+      body_html: description
+    }
+  };
+
+  try {
+    const response = await axios.post(url, payload, {
+      headers,
+      validateStatus: () => true
+    });
+
+    if (response.status >= 200 && response.status < 300) {
+      console.log(`Smart collection created for ${rules}`);
+      return response.data.smart_collection;
+    }
+
+    const apiError = JSON.stringify(response.data, null, 2);
+
+    throw new Error(`Shopify API ${response.status}: ${apiError}`);
+
+  } catch (err) {
+    if (err.response) {
+      throw new Error(
+        `Shopify API ${err.response.status}: ${JSON.stringify(err.response.data)}`
+      );
+    }
+    throw new Error(`Axios error: ${err.message}`);
+  }
+};
+
+const migrateVendorRuleToMetafield = async (collectionId, metafieldDefinitionGID) => {
+  const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
+  const gid = `gid://shopify/Collection/${collectionId}`;
+
+  try {
+    console.log(`Processing collection ${collectionId}`);
+
+    const getQuery = `
+      query getCollection($id: ID!) {
+        collection(id: $id) {
+          id
+          ruleSet {
+            appliedDisjunctively
+            rules {
+              column
+              relation
+              condition
+            }
+          }
+        }
+      }
+    `;
+
+    const getResponse = await axios.post(url, { query: getQuery, variables: { id: gid } }, { headers });
+
+    if (!getResponse.data || getResponse.data.errors) {
+      console.error("GraphQL errors fetching collection:", getResponse.data.errors);
+      return;
+    }
+
+    const collection = getResponse.data.data.collection;
+
+    if (!collection?.ruleSet?.rules?.length) {
+      console.log("No rules found. Skipping.");
+      return;
+    }
+
+    const { appliedDisjunctively, rules } = collection.ruleSet;
+
+    const vendorRule = rules.find(r => r.column === "VENDOR");
+
+    if (!vendorRule) {
+      console.log("No VENDOR rule found. Skipping.");
+      return;
+    }
+
+    const vendorValue = vendorRule.condition;
+
+    let updatedRules = rules.filter(r => r.column !== "VENDOR");
+
+    updatedRules.push({
+      column: "PRODUCT_METAFIELD_DEFINITION",
+      relation: "EQUALS",
+      condition: vendorValue,
+      conditionObjectId: "gid://shopify/MetafieldDefinition/194143519069"
+    });
+
+    console.log("Updated rules:", updatedRules);
+
+    const updateMutation = `
+      mutation updateCollection($input: CollectionInput!) {
+        collectionUpdate(input: $input) {
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    `;
+
+    const updateResponse = await axios.post(
+      url,
+      { query: updateMutation, variables: { input: { id: gid, ruleSet: { appliedDisjunctively, rules: updatedRules } } } },
+      { headers }
+    );
+
+    if (!updateResponse.data) {
+      console.error("No response from Shopify:", updateResponse);
+      return;
+    }
+
+    if (updateResponse.data.errors) {
+      console.error("GraphQL top-level errors:", updateResponse.data.errors);
+      return;
+    }
+
+    const userErrors = updateResponse.data.data.collectionUpdate.userErrors;
+    if (userErrors.length > 0) {
+      console.error("GraphQL user errors:", userErrors);
+      return;
+    }
+
+    console.log(`Collection ${collectionId} migrated successfully.`);
+
+  } catch (error) {
+    console.error(`Error migrating collection ${collectionId}:`, error.response?.data || error.message);
+  }
+};
+
+const fetchProductMetafields = async (productId) => {
+ try {
+    const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products/${productId}/metafields.json`;
+    const response = await axios.get(url, { headers });
+
+    if (!response.data || !response.data.metafields) return {};
+
+    // Convert to { namespace.key: value } format for easy access
+    const values = {};
+    response.data.metafields.forEach(meta => {
+      values[`${meta.namespace}.${meta.key}`] = meta.value;
+    });
+    console.log(`Fetched metafields for product ${productId}:`, values);
+
+    return values;
+  } catch (error) {
+    console.error(`Error fetching metafields for product ${productId}:`, error.response?.data || error.message);
+    return {};
+  }
+};
+
+const updateItemManufacturesMetafield = async (productId, value) => {
+  const url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
+
+  const mutation = `
+    mutation metafieldsSet($metafields: [MetafieldsSetInput!]!) {
+      metafieldsSet(metafields: $metafields) {
+        metafields {
+          id
+          namespace
+          key
+          value
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    metafields: [
+      {
+        ownerId: `gid://shopify/Product/${productId}`,
+        namespace: "custom", // Change if your namespace is different
+        key: "item_manufactures",
+        type: "single_line_text_field", // Change if your definition uses a different type
+        value: value.toString(),
+      },
+    ],
+  };
+
+  try {
+    const response = await axios.post(
+      url,
+      { query: mutation, variables },
+      { headers }
+    );
+
+    if (response.data.errors) {
+      console.error("GraphQL Errors:", response.data.errors);
+      return;
+    }
+
+    const userErrors = response.data.data.metafieldsSet.userErrors;
+    if (userErrors.length > 0) {
+      console.error("User Errors:", userErrors);
+      return;
+    }
+
+    console.log(
+      `Metafield 'item_manufactures' updated successfully for Product ID: ${productId}`
+    );
+
+    return response.data.data.metafieldsSet.metafields[0];
+
+  } catch (error) {
+    console.error(
+      `Error updating metafield for Product ID ${productId}:`,
+      error.response?.data || error.message
+    );
+  }
+};
+
+const createProduct = async (title, sku, price = "0.00", chargeTax = true) => {
+  try {
+    const payload = {
+      product: {
+        title,
+        variants: [
+          {
+            sku,
+            price,
+            taxable: chargeTax
+          }
+        ]
+      }
+    };
+
+    const response = await axios.post(
+      `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json`,
+      payload,
+      { headers }
+    );
+
+    console.log(`Product created: ${response.data.product.id}`);
+
+    return {
+      success: true,
+      product: response.data.product
+    };
+
+  } catch (error) {
+    console.error(
+      "Error creating product:",
+      error.response?.data || error.message
+    );
+
+    return {
+      success: false,
+      error: error.response?.data || error.message
+    };
+  }
+};
+
+const uploadProductImage = async (productId, imageUrl, altText = "") => {
+  try {
+    const response = await axios.post(
+      `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products/${productId}/images.json`,
+      {
+        image: {
+          src: imageUrl,
+          alt: altText
+        }
+      },
+      { headers }
+    );
+
+    console.log(
+      `Image uploaded for Product ${productId}: ${response.data.image.id}`
+    );
+
+    return response.data.image;
+
+  } catch (error) {
+    console.error(
+      `Image upload failed for Product ${productId}:`,
+      error.response?.data || error.message
+    );
+  }
+};
+
+const deleteProduct = async (productId) => {
+  try {
+    await axios.delete(
+      `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products/${productId}.json`,
+      { headers }
+    );
+
+    console.log(`Deleted product ${productId}`);
+
+    return { success: true };
+
+  } catch (error) {
+    console.error(
+      `Failed deleting product ${productId}:`,
+      error.response?.data || error.message
+    );
+
+    return { success: false, error: error.message };
+  }
+};
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-module.exports = { fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections,createSmartCollection,updateProductVendor };
+module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage};
 
