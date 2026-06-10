@@ -95,9 +95,9 @@ exports.uploadFile = async (req, res) => {
     case "upload_product_image.tsv":
       fileType = "upload_product_image";
       break;
-    case "delete_products.txt":
-    case "delete_products.tsv":
-      fileType = "delete_products";
+    case "delete_products_shopify.txt":
+    case "delete_products_shopify.tsv":
+      fileType = "delete_products_shopify";
       break;
     default:
       return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update,create_smart_JSON");
@@ -265,12 +265,12 @@ exports.uploadFile = async (req, res) => {
             });
             break;
 
-          case "delete_products":
+          case "delete_products_shopify":
             if (fields.length !== 1) continue;
             const [productIdToDelete2] = fields;
             apiTasks.push({
               type: fileType,
-              productId: productIdToDelete
+              productId:  productIdToDelete2,
             });
         }
       } catch (err) {
@@ -349,7 +349,7 @@ exports.uploadFile = async (req, res) => {
             await uploadProductImage(task.productId, task.imageUrl, task.altText);
             break;  
 
-          case "delete_products":
+          case "delete_products_shopify":
             await deleteProductShopify(task.productId);
             break;
         }

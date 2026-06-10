@@ -931,7 +931,435 @@ const deleteProduct = async (productId) => {
   }
 };
 
+const fetchAllProductImageUrls = async () => {
+  let url = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/products.json?fields=images&limit=250`;
+  const imageUrls = new Set();
+
+  try {
+    while (url) {
+      let success = false;
+      let retryCount = 0;
+
+      while (!success && retryCount < 5) {
+        try {
+          const response = await axios.get(url, { headers });
+
+          response.data.products.forEach((product) => {
+            (product.images || []).forEach((image) => {
+              if (image.src) {
+                imageUrls.add(image.src.split("?")[0]);
+              }
+            });
+          });
+
+          url =
+            response.headers.link &&
+            response.headers.link.includes('rel="next"')
+              ? response.headers.link
+                  .split(",")
+                  .find((link) => link.includes('rel="next"'))
+                  .match(/<(.*?)>/)[1]
+              : null;
+
+          success = true;
+        } catch (error) {
+          if (error.response && error.response.status === 429) {
+            retryCount++;
+            const retryAfter = error.response.headers["retry-after"] || Math.pow(2, retryCount);
+            console.warn(`Rate limited on image URLs. Retrying in ${retryAfter}s...`);
+            await delay(retryAfter * 1000);
+          } else {
+            throw error;
+          }
+        }
+      }
+
+      // Throttle: stay well under 2 req/sec
+      await delay(600);
+    }
+
+    return imageUrls;
+  } catch (error) {
+    console.error(
+      "Error fetching product image URLs:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+const fetchAllFiles = async () => {
+  const allFiles = [];
+  let hasNextPage = true;
+  let cursor = null;
+
+  try {
+    while (hasNextPage) {
+      const query = `
+      query ($cursor: String) {
+        files(first: 250, after: $cursor) {
+          edges {
+            cursor
+            node {
+              id
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+          }
+          pageInfo {
+            hasNextPage
+          }
+        }
+      }`;
+
+      let success = false;
+      let retryCount = 0;
+
+      while (!success && retryCount < 5) {
+        try {
+          const response = await axios.post(
+            `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`,
+            { query, variables: { cursor } },
+            { headers }
+          );
+
+          // GraphQL rate limit errors come back as 200 with errors in the body
+          if (response.data.errors) {
+            const isThrottled = JSON.stringify(response.data.errors)
+              .toLowerCase()
+              .includes("throttl");
+
+            if (isThrottled) {
+              retryCount++;
+              const waitTime = Math.pow(2, retryCount) * 1000;
+              console.warn(`GraphQL throttled on files. Retrying in ${waitTime / 1000}s...`);
+              await delay(waitTime);
+              continue;
+            }
+
+            throw new Error(JSON.stringify(response.data.errors));
+          }
+
+          const files = response.data.data.files.edges;
+
+          files.forEach((edge) => {
+            allFiles.push({
+              id: edge.node.id,
+              url: edge.node.image?.url
+                ? edge.node.image.url.split("?")[0]
+                : null,
+            });
+          });
+
+          hasNextPage = response.data.data.files.pageInfo.hasNextPage;
+
+          if (files.length > 0) {
+            cursor = files[files.length - 1].cursor;
+          }
+
+          success = true;
+        } catch (error) {
+          if (error.response && error.response.status === 429) {
+            retryCount++;
+            const retryAfter = error.response.headers["retry-after"] || Math.pow(2, retryCount);
+            console.warn(`Rate limited on files. Retrying in ${retryAfter}s...`);
+            await delay(retryAfter * 1000);
+          } else {
+            throw error;
+          }
+        }
+      }
+
+      // Throttle between pages
+      await delay(600);
+    }
+
+    return allFiles;
+  } catch (error) {
+    console.error(
+      "Error fetching files:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+const deleteFilesBatch = async (fileIds) => {
+  const mutation = `
+    mutation fileDelete($fileIds: [ID!]!) {
+      fileDelete(fileIds: $fileIds) {
+        deletedFileIds
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  let retryCount = 0;
+
+  while (retryCount < 5) {
+    try {
+      const response = await axios.post(
+        `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`,
+        { query: mutation, variables: { fileIds } },
+        { headers }
+      );
+
+      // Check for GraphQL-level throttling (200 status but errors in body)
+      if (response.data.errors) {
+        const isThrottled = JSON.stringify(response.data.errors)
+          .toLowerCase()
+          .includes("throttl");
+
+        if (isThrottled) {
+          retryCount++;
+          const waitTime = Math.pow(2, retryCount) * 1000;
+          console.warn(`GraphQL throttled on delete batch. Retrying in ${waitTime / 1000}s...`);
+          await delay(waitTime);
+          continue;
+        }
+
+        throw new Error(JSON.stringify(response.data.errors));
+      }
+
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        retryCount++;
+        const retryAfter = error.response.headers["retry-after"] || Math.pow(2, retryCount);
+        console.warn(`Rate limited on delete batch. Retrying in ${retryAfter}s...`);
+        await delay(retryAfter * 1000);
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  throw new Error("Max retries exceeded for deleteFilesBatch");
+};
+
+const deleteUnusedProductFiles = async () => {
+  try {
+    console.log("Fetching product image URLs...");
+    const productImages = await fetchAllProductImageUrls();
+
+    console.log(`Found ${productImages.size} product images`);
+
+    console.log("Fetching Shopify files...");
+    const files = await fetchAllFiles();
+
+    console.log(`Found ${files.length} files`);
+
+    const unusedFiles = files.filter((file) => {
+      if (!file.url) return false;
+      return !productImages.has(file.url);
+    });
+
+    console.log(
+      `Found ${unusedFiles.length} files not associated with products`
+    );
+
+    const deleted = [];
+
+    for (let i = 0; i < unusedFiles.length; i += 50) {
+      const batch = unusedFiles
+        .slice(i, i + 50)
+        .map((file) => file.id);
+
+      const result = await deleteFilesBatch(batch);
+
+      console.log(
+        `Deleted batch ${Math.floor(i / 50) + 1}`
+      );
+
+      deleted.push(...batch);
+
+      await delay(1000);
+    }
+
+    return {
+      success: true,
+      totalFiles: files.length,
+      totalProductImages: productImages.size,
+      deletedCount: deleted.length,
+    };
+  } catch (error) {
+    console.error(
+      "Error deleting unused files:",
+      error.response?.data || error.message
+    );
+
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};
+
+//Metafield Bulk Fetching using GraphQL Bulk Operations API
+const fetchAllProductMetafieldsBulk = async () => {
+  const graphqlUrl = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
+
+  // ── Step 1: Kick off a bulk operation ──────────────────────────────────────
+  const bulkMutation = `
+    mutation {
+      bulkOperationRunQuery(
+        query: """
+        {
+          products {
+            edges {
+              node {
+                id
+                title
+                metafields {
+                  edges {
+                    node {
+                      namespace
+                      key
+                      value
+                      type
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        """
+      ) {
+        bulkOperation {
+          id
+          status
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `;
+
+  console.log("Starting bulk operation...");
+
+  const mutationResponse = await axios.post(
+    graphqlUrl,
+    { query: bulkMutation },
+    { headers }
+  );
+
+  const { bulkOperation, userErrors } =
+    mutationResponse.data.data.bulkOperationRunQuery;
+
+  if (userErrors?.length > 0) {
+    throw new Error(`Bulk operation errors: ${JSON.stringify(userErrors)}`);
+  }
+
+  console.log(`Bulk operation started. ID: ${bulkOperation.id}`);
+
+  // ── Step 2: Poll until complete ────────────────────────────────────────────
+  const pollQuery = `
+    {
+      currentBulkOperation {
+        id
+        status
+        errorCode
+        objectCount
+        fileSize
+        url
+        partialDataUrl
+      }
+    }
+  `;
+
+  let downloadUrl = null;
+
+  while (true) {
+    await delay(5000); // poll every 5 seconds
+
+    const pollResponse = await axios.post(
+      graphqlUrl,
+      { query: pollQuery },
+      { headers }
+    );
+
+    const op = pollResponse.data.data.currentBulkOperation;
+    console.log(`Bulk operation status: ${op.status} | Objects: ${op.objectCount}`);
+
+    if (op.status === "COMPLETED") {
+      downloadUrl = op.url;
+      console.log(`Bulk operation complete. File URL: ${downloadUrl}`);
+      break;
+    }
+
+    if (op.status === "FAILED" || op.status === "CANCELED") {
+      throw new Error(`Bulk operation failed: ${op.errorCode}`);
+    }
+  }
+
+  if (!downloadUrl) {
+    throw new Error("No download URL returned from bulk operation.");
+  }
+
+  // ── Step 3: Download and parse the JSONL file ──────────────────────────────
+  console.log("Downloading bulk result file...");
+
+  const fileResponse = await axios.get(downloadUrl, {
+    responseType: "stream",
+  });
+
+  // Build a map: productId -> { title, metafields: [] }
+  const productMap = new Map();
+  const metafieldRows = [];
+
+  await new Promise((resolve, reject) => {
+    const readline = require("readline");
+    const rl = readline.createInterface({ input: fileResponse.data });
+
+    rl.on("line", (line) => {
+      if (!line.trim()) return;
+
+      const obj = JSON.parse(line);
+
+      if (obj.id?.includes("/Product/") && !obj.__parentId) {
+        // Top-level product node
+        productMap.set(obj.id, {
+          product_gid: obj.id,
+          product_id: obj.id.replace("gid://shopify/Product/", ""),
+          product_title: obj.title,
+        });
+      } else if (obj.__parentId) {
+        // Child node — metafield belonging to a product
+        const parent = productMap.get(obj.__parentId);
+        if (parent) {
+          metafieldRows.push({
+            product_id: parent.product_id,
+            product_title: parent.product_title,
+            namespace: obj.namespace,
+            key: obj.key,
+            value: obj.value,
+            type: obj.type,
+          });
+        }
+      }
+    });
+
+    rl.on("close", resolve);
+    rl.on("error", reject);
+  });
+
+  console.log(
+    `Parsed ${productMap.size} products and ${metafieldRows.length} metafield entries.`
+  );
+
+  return metafieldRows;
+};
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage};
+module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage, deleteUnusedProductFiles, fetchAllProductMetafieldsBulk};
 

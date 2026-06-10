@@ -1,5 +1,5 @@
 const express = require("express");
-const { downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections ,compareSKUsdaily,fetchProductMetafield,fetchproductVendor} = require("../controllers/productController");
+const { downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections ,compareSKUsdaily,fetchProductMetafield,fetchproductVendor,deleteUnusedImages,downloadAllMetafieldsBulk} = require("../controllers/productController");
 const {openaiSEO} = require("../services/openaiService")
 const {reorderSmartCollection} = require("../services/shopifyService")
 const router = express.Router();
@@ -11,7 +11,8 @@ router.get("/getcollection",downloadSmartCollections);
 router.get("/CompareSKU",compareSKUsdaily);
 router.get("/fetchMetafields",fetchProductMetafield);
 router.get("/fetchproductVendor",fetchproductVendor);
-
+router.delete("/delete-unused-product-files",deleteUnusedImages);
+router.get("/download-all-metafields-bulk", downloadAllMetafieldsBulk);
 // router.get("/trial",openaiSEO);  openaiSEO direct link for trial version
 
 module.exports = router;

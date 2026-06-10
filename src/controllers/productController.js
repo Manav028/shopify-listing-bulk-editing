@@ -1,16 +1,16 @@
-const { fetchAllProducts,fetchCategoryProducts,fetchMetafields, fetchAllCollections,fetchProductMetafields, fetchAllProductsVendor} = require("../services/shopifyService");
+const { fetchAllProducts,fetchCategoryProducts,fetchMetafields, fetchAllCollections,fetchProductMetafields, fetchAllProductsVendor, deleteUnusedProductFiles, fetchAllProductMetafieldsBulk} = require("../services/shopifyService");
 const { saveToCsv } = require("../services/csvService");
 const { OUTPUT_CSV_PATH , STORE_NAME } = require("../config/config");
 const {uploadToDropbox} = require('../utils/uploadToDropbox');
 const path = require('path');
 const {compareSKUs} = require("../services/compareSKUs")
+const { getFilePaths } = require("../utils/filePaths");
 
 const downloadProducts = async (req, res) => {
   try {
     const fileName = `${STORE_NAME}products.csv`;
-    const localDir = '/tmp'; 
-    const localFilePath = path.join(localDir, fileName);
-    const dropboxPath = `/exports/${fileName}`;
+
+    const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
 
     const productData = await fetchAllProducts();
     await saveToCsv(productData, fileName, localDir);
@@ -34,9 +34,14 @@ const downloadCategoryProducts = async (req, res) => {
 
 const downloadMetafieldproduct = async(req,res) =>{
   try{
+    const fileName = `${STORE_NAME}Metafield.csv`;
+
+    const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
+
     const productData = await fetchMetafields();
-    await saveToCsv(productData,"metafield.csv");
-    res.download(`${OUTPUT_CSV_PATH}metafield.csv`);
+    await saveToCsv(productData, fileName, localDir);
+    await uploadToDropbox(localFilePath, dropboxPath);
+    res.download(localFilePath);
   }catch(error){
     res.status(500).send("Error downloading Metafield product");
   }
@@ -97,5 +102,41 @@ const fetchproductVendor = async (req, res) => {
   }
 }
 
+const deleteUnusedImages = async (req, res) => {
+  try {
+    const result = await deleteUnusedProductFiles();
 
-module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections,compareSKUsdaily,fetchProductMetafield,fetchproductVendor};
+    if (!result.success) {
+      return res.status(500).json(result);
+    }
+
+    return res.json(result);
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
+const downloadAllMetafieldsBulk = async (req, res) => {
+  try {
+    const fileName = `${STORE_NAME}MetafieldsBulk.csv`;
+    const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
+
+    const data = await fetchAllProductMetafieldsBulk();
+    await saveToCsv(data, fileName, localDir);
+    await uploadToDropbox(localFilePath, dropboxPath);
+
+    res.download(localFilePath);
+  } catch (error) {
+    console.error("Error in downloadAllMetafieldsBulk:", error.message);
+    res.status(500).send("Error downloading bulk metafields");
+  }
+};
+
+
+module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections,compareSKUsdaily,fetchProductMetafield,fetchproductVendor,deleteUnusedImages,downloadAllMetafieldsBulk};
