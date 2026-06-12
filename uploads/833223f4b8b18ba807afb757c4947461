@@ -1,0 +1,16 @@
+title	rules	disjunctive	body_html
+BATHROOM ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"BATHROOM ESSENTIAL","condition_object_id":1503792562525}]	FALSE	
+CLEANING AND LAUNDRY PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"CLEANING AND LAUNDRY PRODUCTS","condition_object_id":1503792562525}]	FALSE	
+DISCONTINUED ITEMS	[{"column":"product_metafield_definition","relation":"equals","condition":"DISCONTINUED ITEMS","condition_object_id":1503792562525}]	FALSE	
+GIFTS / PARTY	[{"column":"product_metafield_definition","relation":"equals","condition":"GIFTS / PARTY","condition_object_id":1503792562525}]	FALSE	
+HARDWARE	[{"column":"product_metafield_definition","relation":"equals","condition":"HARDWARE","condition_object_id":1503792562525}]	FALSE	
+HEALTH BEAUTY CARE PRODUCTS	[{"column":"product_metafield_definition","relation":"equals","condition":"HEALTH BEAUTY CARE PRODUCTS","condition_object_id":1503792562525}]	FALSE	
+HOME ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"HOME ESSENTIAL","condition_object_id":1503792562525}]	FALSE	
+KITCHEN ESSENTIAL	[{"column":"product_metafield_definition","relation":"equals","condition":"KITCHEN ESSENTIAL","condition_object_id":1503792562525}]	FALSE	
+NEW ARRIVALS	[{"column":"product_metafield_definition","relation":"equals","condition":"NEW ARRIVALS","condition_object_id":1503792562525}]	FALSE	
+RYSONS ( SAVVY STOCK LTD)	[{"column":"product_metafield_definition","relation":"equals","condition":"RYSONS ( SAVVY STOCK LTD)","condition_object_id":1503792562525}]	FALSE	
+SEASONAL	[{"column":"product_metafield_definition","relation":"equals","condition":"SEASONAL","condition_object_id":1503792562525}]	FALSE	
+SMOKING ACC. & BATTERIES	[{"column":"product_metafield_definition","relation":"equals","condition":"SMOKING ACC. & BATTERIES","condition_object_id":1503792562525}]	FALSE	
+STATIONERY / ART & CRAFT	[{"column":"product_metafield_definition","relation":"equals","condition":"STATIONERY / ART & CRAFT","condition_object_id":1503792562525}]	FALSE	
+TOILET ACCESSORIES	[{"column":"product_metafield_definition","relation":"equals","condition":"TOILET ACCESSORIES","condition_object_id":1503792562525}]	FALSE	
+TOYS	[{"column":"product_metafield_definition","relation":"equals","condition":"TOYS","condition_object_id":1503792562525}]	FALSE	

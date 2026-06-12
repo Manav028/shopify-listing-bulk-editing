@@ -18,7 +18,8 @@ const {
   updatePublishedDate,
   createProduct,
   uploadProductImage,
-  deleteProduct: deleteProductShopify
+  deleteProduct: deleteProductShopify,
+  updateSmartCollectionImage
 } = require("../services/shopifyService");
 
 const limiter = new Bottleneck({
@@ -98,6 +99,10 @@ exports.uploadFile = async (req, res) => {
     case "delete_products_shopify.txt":
     case "delete_products_shopify.tsv":
       fileType = "delete_products_shopify";
+      break;
+    case "update_smart_collection_image.txt":
+    case "update_smart_collection_image.tsv":
+      fileType = "update_smart_collection_image";
       break;
     default:
       return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update,create_smart_JSON");
@@ -272,6 +277,18 @@ exports.uploadFile = async (req, res) => {
               type: fileType,
               productId:  productIdToDelete2,
             });
+            break;
+
+          case "update_smart_collection_image":
+            if (fields.length < 2) continue;
+            const [collectionIdImage, imageUrlImage, altTextImage] = fields;
+            apiTasks.push({
+              type: fileType,
+              collectionId: collectionIdImage,
+              imageUrl: imageUrlImage,
+              altText: altTextImage || ""
+            });
+            break;
         }
       } catch (err) {
         console.error(`Error parsing line: ${line}`, err);
@@ -351,6 +368,10 @@ exports.uploadFile = async (req, res) => {
 
           case "delete_products_shopify":
             await deleteProductShopify(task.productId);
+            break;
+
+          case "update_smart_collection_image":
+            await updateSmartCollectionImage(task.collectionId, task.imageUrl, task.altText);
             break;
         }
 

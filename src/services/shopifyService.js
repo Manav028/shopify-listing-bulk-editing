@@ -495,7 +495,7 @@ const reorderSmartCollection = async (collectionId, productId, rank) => {
 }
 
 const fetchAllCollections = async () => {
-  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title,rules,disjunctive,body_html&limit=250`;
+  const urlBase = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections.json?fields=id,title,rules,disjunctive,body_html,image&limit=250`;
   const allCollections = [];
   let url = urlBase;
 
@@ -517,6 +517,7 @@ const fetchAllCollections = async () => {
           rules: collection.rules,
           disjunctive: collection.disjunctive,
           body_html: collection.body_html,
+          image: collection.image,
         });
       });
 
@@ -1359,7 +1360,41 @@ const fetchAllProductMetafieldsBulk = async () => {
   return metafieldRows;
 };
 
+const updateSmartCollectionImage = async (collectionId, imageUrl, altText = "") => {
+  try {
+    const response = await axios.put(
+      `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections/${collectionId}.json`,
+      {
+        smart_collection: {
+          id: collectionId,
+          image: {
+            src: imageUrl,
+            alt: altText
+          }
+        }
+      },
+      { headers }
+    );
+
+    console.log(
+      `Image updated for Smart Collection ${collectionId}`
+    );
+
+    return response.data.smart_collection;
+
+  } catch (error) {
+    console.error(
+      `Failed updating Smart Collection ${collectionId}:`,
+      error.response?.data || error.message
+    );
+
+    return {
+      success: false,
+      error: error.response?.data || error.message
+    };
+  }
+};
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage, deleteUnusedProductFiles, fetchAllProductMetafieldsBulk};
-
+module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage, deleteUnusedProductFiles, fetchAllProductMetafieldsBulk, updateSmartCollectionImage};

@@ -50,10 +50,9 @@ const downloadMetafieldproduct = async(req,res) =>{
 const downloadSmartCollections = async (req, res) => {
   try {
 
-    const fileName = 'SmartCollection.csv';
-    const localDir = '/tmp'; 
-    const localFilePath = path.join(localDir, fileName);
-    const dropboxPath = `/exports/${fileName}`;
+    const fileName = `${STORE_NAME}SmartCollections.csv`;
+
+    const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
 
     const productData = await fetchAllCollections();
     await saveToCsv(productData, fileName, localDir);
@@ -88,9 +87,8 @@ const fetchProductMetafield = async (req, res) => {
 const fetchproductVendor = async (req, res) => {
   try {
     const fileName = `${STORE_NAME}Vendor.csv`;
-    const localDir = '/tmp'; 
-    const localFilePath = path.join(localDir, fileName);
-    const dropboxPath = `/exports/${fileName}`;
+
+    const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
 
     const productData = await fetchAllProductsVendor();
     await saveToCsv(productData, fileName, localDir);
