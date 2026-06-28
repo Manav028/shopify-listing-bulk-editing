@@ -1206,7 +1206,7 @@ const deleteUnusedProductFiles = async () => {
 const fetchAllProductMetafieldsBulk = async () => {
   const graphqlUrl = `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/graphql.json`;
 
-  // ── Step 1: Kick off a bulk operation ──────────────────────────────────────
+  //Kick off a bulk operation
   const bulkMutation = `
     mutation {
       bulkOperationRunQuery(
@@ -1262,7 +1262,7 @@ const fetchAllProductMetafieldsBulk = async () => {
 
   console.log(`Bulk operation started. ID: ${bulkOperation.id}`);
 
-  // ── Step 2: Poll until complete ────────────────────────────────────────────
+  //Poll until complete
   const pollQuery = `
     {
       currentBulkOperation {
@@ -1280,7 +1280,7 @@ const fetchAllProductMetafieldsBulk = async () => {
   let downloadUrl = null;
 
   while (true) {
-    await delay(5000); // poll every 5 seconds
+    await delay(5000);
 
     const pollResponse = await axios.post(
       graphqlUrl,
@@ -1306,7 +1306,7 @@ const fetchAllProductMetafieldsBulk = async () => {
     throw new Error("No download URL returned from bulk operation.");
   }
 
-  // ── Step 3: Download and parse the JSONL file ──────────────────────────────
+  //Download and parse the JSONL file
   console.log("Downloading bulk result file...");
 
   const fileResponse = await axios.get(downloadUrl, {
