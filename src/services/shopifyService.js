@@ -366,8 +366,13 @@ const fetchCategoryProducts = async (collectionid) => {
 };
 
 // Update product price
-const updateVariantPrice = async (variantId, newPrice, compareAtPrice = null) => {
-  const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE}/admin/api/2024-01/variants/${variantId}.json`;
+const updateVariantPrice = async (
+  variantId,
+  newPrice,
+  compareAtPrice = null,
+  costPrice = null
+) => {
+  const variantUrl = `https://${SHOPIFY_STORE}/admin/api/2024-01/variants/${variantId}.json`;
 
   try {
     const variantData = {
@@ -375,20 +380,62 @@ const updateVariantPrice = async (variantId, newPrice, compareAtPrice = null) =>
       price: newPrice,
     };
 
-    if (compareAtPrice !== null && compareAtPrice !== "" && !isNaN(compareAtPrice)) {
+    if (
+      compareAtPrice !== null &&
+      compareAtPrice !== "" &&
+      !isNaN(compareAtPrice)
+    ) {
       variantData.compare_at_price = compareAtPrice;
     }
 
-    console.log("Sending data to update price:", { variant: variantData });
+    console.log("Updating variant:", variantData);
 
-    await axios.put(SHOPIFY_GRAPHQL_URL, { variant: variantData }, { headers });
+    // Update selling price
+    const variantResponse = await axios.put(
+      variantUrl,
+      { variant: variantData },
+      { headers }
+    );
 
-    console.log(`Price updated for Variant ID: ${variantId}`);
+    // Update cost if provided
+    if (
+      costPrice !== null &&
+      costPrice !== "" &&
+      !isNaN(costPrice)
+    ) {
+      const inventoryItemId =
+        variantResponse.data.variant.inventory_item_id;
+
+      const inventoryItemUrl = `https://${SHOPIFY_STORE}/admin/api/2024-01/inventory_items/${inventoryItemId}.json`;
+
+      await axios.put(
+        inventoryItemUrl,
+        {
+          inventory_item: {
+            id: inventoryItemId,
+            cost: costPrice,
+          },
+        },
+        { headers }
+      );
+
+      console.log(`Cost updated for Inventory Item ${inventoryItemId}`);
+    }
+
+    console.log(`Price updated for Variant ${variantId}`);
   } catch (error) {
-    console.error(`Error updating variant ID ${variantId}:`, error.response ? error.response.data : error.message);
+    console.error(
+      `Error updating variant ${variantId}:`,
+      error.response ? error.response.data : error.message
+    );
 
     if (await handleRateLimit(error)) {
-      return updateVariantPrice(variantId, newPrice, compareAtPrice);
+      return updateVariantPrice(
+        variantId,
+        newPrice,
+        compareAtPrice,
+        costPrice
+      );
     }
   }
 };
@@ -1395,6 +1442,31 @@ const updateSmartCollectionImage = async (collectionId, imageUrl, altText = "") 
   }
 };
 
+const updateSmartCollectionSortOrder = async (collectionId) => {
+  try {
+    console.log(`Changing sort order of collection ${collectionId} to manual...`);
+    const response = await axios.put(
+      `https://${SHOPIFY_STORE}/admin/api/${API_VERSION}/smart_collections/${collectionId}.json`,
+      {
+        smart_collection: {
+          id: collectionId,
+          sort_order: "manual"
+        }
+      },
+      { headers }
+    );
+
+    console.log(`Collection ${collectionId} sort order changed to manual.`);
+    return response.data.smart_collection;
+  } catch (error) {
+    console.error(
+      `Error updating collection ${collectionId}:`,
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage, deleteUnusedProductFiles, fetchAllProductMetafieldsBulk, updateSmartCollectionImage};
+module.exports = { deleteProduct,fetchAllProducts, updateVariantPrice, addProductToCollection, delay, fetchCategoryProducts, fetchMetafields, updateSEOmetafield, reorderSmartCollection, fetchAllCollections, createSmartCollection, updateProductVendor, createSmartCollectionWithJSON, migrateVendorRuleToMetafield , fetchProductMetafields, fetchAllProductsVendor, updateItemManufacturesMetafield, updatePublishedDate,createProduct, uploadProductImage, deleteUnusedProductFiles, fetchAllProductMetafieldsBulk, updateSmartCollectionImage, updateSmartCollectionSortOrder};

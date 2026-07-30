@@ -19,12 +19,13 @@ const {
   createProduct,
   uploadProductImage,
   deleteProduct: deleteProductShopify,
-  updateSmartCollectionImage
+  updateSmartCollectionImage,
+  updateSmartCollectionSortOrder
 } = require("../services/shopifyService");
 
 const limiter = new Bottleneck({
   maxConcurrent: 2,         // Same as your pLimit
-  minTime: 500              // 500ms delay between each call = 2 requests/sec
+  minTime: 1200              // 500ms delay between each call = 2 requests/sec
 });
 
 exports.uploadFile = async (req, res) => {
@@ -104,6 +105,10 @@ exports.uploadFile = async (req, res) => {
     case "update_smart_collection_image.tsv":
       fileType = "update_smart_collection_image";
       break;
+    case "update_smart_collection_sort_order.txt":
+    case "update_smart_collection_sort_order.tsv":
+      fileType = "update_smart_collection_sort_order";
+      break;
     default:
       return res.status(400).send("Invalid file name. Expected one of: price_update, seo_metafields, reorder_products, create_smart_collection, vendor_update,create_smart_JSON");
   }
@@ -129,8 +134,8 @@ exports.uploadFile = async (req, res) => {
 
         switch (fileType) {
           case "price_update":
-            if (fields.length < 4) continue;
-            const [product_id, variant_id, sku, price, compare_at_price] = fields;
+            if (fields.length < 5) continue;
+            const [product_id, variant_id, sku, price, compare_at_price, costPrice] = fields;
             apiTasks.push({
               type: fileType,
               product_id,
@@ -138,6 +143,7 @@ exports.uploadFile = async (req, res) => {
               sku,
               price,
               compare_at_price: compare_at_price || null,
+              costPrice: costPrice || null,
             });
             break;
 
@@ -289,6 +295,14 @@ exports.uploadFile = async (req, res) => {
               altText: altTextImage || ""
             });
             break;
+          case "update_smart_collection_sort_order":
+            if (fields.length < 1) continue;
+            const [collectionIdSort] = fields;
+            apiTasks.push({
+              type: fileType,
+              collectionId: collectionIdSort,
+            });
+            break
         }
       } catch (err) {
         console.error(`Error parsing line: ${line}`, err);
@@ -299,7 +313,7 @@ exports.uploadFile = async (req, res) => {
       try {
         switch (task.type) {
           case "price_update":
-            await updateVariantPrice(task.variant_id, task.price, task.compare_at_price)
+            await updateVariantPrice(task.variant_id, task.price, task.compare_at_price,task.costPrice);
             // if (task.collectionId) {
             //   await addProductToCollection(task.product_id, task.collectionId);
             // }
@@ -372,6 +386,11 @@ exports.uploadFile = async (req, res) => {
 
           case "update_smart_collection_image":
             await updateSmartCollectionImage(task.collectionId, task.imageUrl, task.altText);
+            break;
+
+          case "update_smart_collection_sort_order":
+            console.log(task.collectionId);
+            await updateSmartCollectionSortOrder(task.collectionId);
             break;
         }
 
