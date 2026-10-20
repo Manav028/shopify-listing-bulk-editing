@@ -32,20 +32,20 @@ const downloadCategoryProducts = async (req, res) => {
   }
 };
 
-const downloadMetafieldproduct = async(req,res) =>{
-  try{
-    const fileName = `${STORE_NAME}Metafield.csv`;
+// const downloadMetafieldproduct = async(req,res) =>{
+//   try{
+//     const fileName = `${STORE_NAME}Metafield.csv`;
 
-    const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
+//     const { localDir, localFilePath, dropboxPath } = getFilePaths(fileName);
 
-    const productData = await fetchMetafields();
-    await saveToCsv(productData, fileName, localDir);
-    await uploadToDropbox(localFilePath, dropboxPath);
-    res.download(localFilePath);
-  }catch(error){
-    res.status(500).send("Error downloading Metafield product");
-  }
-}
+//     const productData = await fetchMetafields();
+//     await saveToCsv(productData, fileName, localDir);
+//     await uploadToDropbox(localFilePath, dropboxPath);
+//     res.download(localFilePath);
+//   }catch(error){
+//     res.status(500).send("Error downloading Metafield product");
+//   }
+// } eror used downloadAllMetafieldsBulk
 
 const downloadSmartCollections = async (req, res) => {
   try {
@@ -137,4 +137,4 @@ const downloadAllMetafieldsBulk = async (req, res) => {
 };
 
 
-module.exports = {downloadProducts,downloadCategoryProducts,downloadMetafieldproduct,downloadSmartCollections,compareSKUsdaily,fetchProductMetafield,fetchproductVendor,deleteUnusedImages,downloadAllMetafieldsBulk};
+module.exports = {downloadProducts,downloadCategoryProducts,downloadSmartCollections,compareSKUsdaily,fetchProductMetafield,fetchproductVendor,deleteUnusedImages,downloadAllMetafieldsBulk};
